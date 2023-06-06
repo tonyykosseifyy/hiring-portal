@@ -29,10 +29,10 @@ import { SE_GREY } from "../../utils/constants/colors";
 // import { portalAccessed, searchLog } from "../../logger/analyticsTracking";
 import { useAuth0 } from "@auth0/auth0-react";
 import HiringCard2 from '../../components/HiringCard/HiringCard2';
-import SwiperCore, { Virtual, Navigation, Pagination } from 'swiper';
+import SwiperCore, { Virtual, Navigation, Pagination, Autoplay} from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/react';
 
-SwiperCore.use([ Virtual, Navigation, Pagination ]);
+SwiperCore.use([ Virtual, Navigation, Pagination, Autoplay ]);
 
 
 export const CustomTextField = styled(TextField)({

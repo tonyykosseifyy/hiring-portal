@@ -16,7 +16,7 @@ const App = () => {
               {
 
                 return (
-                    <Route path={basePath} exact={exact}>
+                    <Route key={`routey-${basePath}`} path={basePath} exact={exact}>
                       <Layout>
                         <Switch>
                           {routes.map(({path, component, protectedRoute, exact: exactRoute}, index) => {
@@ -24,7 +24,7 @@ const App = () => {
                                   protectedRoute?
                                   <AuthRoute key={`route-${index}-pro`} path={path} exact={exactRoute} component={component}/>
                                       :
-                                  <Route key={`route-${index}`} path={path} exact={exactRoute} component={component}/>
+                                  <Route key={`route-${index}`} path={path} exact={exactRoute} component={component} />
                               )
                             }
                           )}
