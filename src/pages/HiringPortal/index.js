@@ -294,7 +294,7 @@ const HiringPortal = () => {
                                                 startIcon={<SearchIcon />}
                                                 sx={{
                                                     height: '40px',
-                                                    minWidth: '160px',
+                                                    minWidth: '200px',
                                                     maxWidth: '300px',
                                                     width: '30%'
                                                 }}
