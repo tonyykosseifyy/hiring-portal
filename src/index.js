@@ -8,7 +8,7 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import {SE_LIGHT_GREY, SE_GREEN} from "./utils/constants/colors";
 import Auth0ProviderWithHistory from "./auth/auth0-provider-with-history";
-import mixpanel from 'mixpanel-browser';
+// import mixpanel from 'mixpanel-browser';
 import {CssBaseline} from "@mui/material";
 import AxiosProvider from "./context/axios";
 import {queryClient, QueryClientProvider, ReactQueryDevtools} from "./api";
@@ -29,7 +29,7 @@ const Theme = createTheme({
         fontWeight: 'normal',
     },});
 
-mixpanel.init(process.env.REACT_APP_MIXPANEL_TOKEN,  {debug: process.env.REACT_APP_ENV === "development"})
+// mixpanel.init(process.env.REACT_APP_MIXPANEL_TOKEN,  {debug: process.env.REACT_APP_ENV === "development"})
 
 ReactDOM.render(
     <Router>

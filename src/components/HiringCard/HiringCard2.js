@@ -20,16 +20,6 @@ import Zoom from '@mui/material/Zoom';
 import Tooltip, { tooltipClasses } from '@mui/material/Tooltip';
 import { useTheme } from '@emotion/react';
 
-const LightTooltip = styled(({ className, ...props }) => (
-  <Tooltip {...props} classes={{ popper: className }} />
-))(({ theme }) => ({
-  [`& .${tooltipClasses.tooltip}`]: {
-    backgroundColor: theme.palette.common.white,
-    color: 'rgba(0, 0, 0, 0.87)',
-    boxShadow: theme.shadows[1],
-    fontSize: 11,
-  },
-}));
 
 // import 'swiper/css';
 // import 'swiper/css/pagination';
@@ -70,14 +60,6 @@ const StyledBadge = styled(Badge)(({ theme }) => ({
         opacity: 0,
       },
     },
-}));
-
-const LinkedInButton = styled(Button)(({ theme }) => ({
-  color: theme.palette.getContrastText(blue[500]),
-  backgroundColor: blue[500],
-  '&:hover': {
-    backgroundColor: blue[500],
-  },
 }));
 
 

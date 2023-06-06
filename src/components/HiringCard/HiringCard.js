@@ -6,17 +6,17 @@ import {
 import './styles.scss';
 import { SE_GREEN, SE_GREY, SE_MID_GREY } from "../../utils/constants/colors";
 import { useModal } from "mui-modal-provider";
-import HiringDialog from "../HiringDialog";
-import PDFDialog from "../PDFDialog";
+// import HiringDialog from "../HiringDialog";
+// import PDFDialog from "../PDFDialog";
 import SEButton from "../SEButton";
 import { AVAILABLE_FOR_HIRE, HIRED } from "../../utils/constants/hiring-status";
-import {
-    githubPressed,
-    hoveredOverLog,
-    interviewBooked,
-    projectPressed,
-    viewCVLog
-} from "../../logger/analyticsTracking";
+// import {
+//     githubPressed,
+//     hoveredOverLog,
+//     interviewBooked,
+//     projectPressed,
+//     viewCVLog
+// } from "../../logger/analyticsTracking";
 import { useAuth0 } from "@auth0/auth0-react";
 import { hooks, useMutation } from "../../api";
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
@@ -53,46 +53,46 @@ const HiringCard = ({ id, attributes: {
     console.log(PRE_RELEASE)
     const isFavorited = () => favorite.find(({ attributes }) => attributes?.student?.data?.id === id)
 
-    const analyticsBasicParams = () => {
-        return { user, graduateProfile: name, languages, projectType, graduateStatus: hiringStatus }
-    }
+    // const analyticsBasicParams = () => {
+    //     return { user, graduateProfile: name, languages, projectType, graduateStatus: hiringStatus }
+    // }
     const isSM = useMediaQuery(theme.breakpoints.down('md'));
 
     const { showModal } = useModal();
 
-    const handleClick = (e, skipCheck, pressedOn) => {
-        if (e.target.localName === "path" || e.target.localName === "svg") {
-            const fav = isFavorited()
-            const operation = fav ? deleteFavorite : createFavorite
-            operation({
-                Api,
-                id: fav ? fav.id : id
-            })
+    // const handleClick = (e, skipCheck, pressedOn) => {
+    //     if (e.target.localName === "path" || e.target.localName === "svg") {
+    //         const fav = isFavorited()
+    //         const operation = fav ? deleteFavorite : createFavorite
+    //         operation({
+    //             Api,
+    //             id: fav ? fav.id : id
+    //         })
 
-        }
-        else {
-            if (!PRE_RELEASE && hiringStatus !== HIRED) {
-                if (skipCheck || (e.target.localName !== "button" && e.target.localName !== "a")) {
-                    projectPressed({ ...analyticsBasicParams(), pressedOn })
-                    const modal = showModal(HiringDialog, {
-                        images: screenshots,
-                        calendly,
-                        youtubeId,
-                        name,
-                        github,
-                        pdf,
-                        projectURL,
-                        languages,
-                        projectType,
-                        hiringStatus,
-                        onCancel: () => {
-                            modal.hide();
-                        },
-                    })
-                }
-            }
-        }
-    }
+    //     }
+    //     else {
+    //         if (!PRE_RELEASE && hiringStatus !== HIRED) {
+    //             if (skipCheck || (e.target.localName !== "button" && e.target.localName !== "a")) {
+    //                 projectPressed({ ...analyticsBasicParams(), pressedOn })
+    //                 const modal = showModal(HiringDialog, {
+    //                     images: screenshots,
+    //                     calendly,
+    //                     youtubeId,
+    //                     name,
+    //                     github,
+    //                     pdf,
+    //                     projectURL,
+    //                     languages,
+    //                     projectType,
+    //                     hiringStatus,
+    //                     onCancel: () => {
+    //                         modal.hide();
+    //                     },
+    //                 })
+    //             }
+    //         }
+    //     }
+    // }
 
     const projectTypeHandle = () => {
         let str = ""
@@ -109,15 +109,15 @@ const HiringCard = ({ id, attributes: {
 
     return (
         <div className={`hiring-card-main-container flip ${(PRE_RELEASE || hiringStatus === HIRED) && "prerelease"}`}
-            onMouseOver={(e) => {
-                setOpen(true)
+            // onMouseOver={(e) => {
+            //     setOpen(true)
 
-            }}
-            onClick={(e) => handleClick(e, false, "Card")}
-            onMouseLeave={() => {
-                setOpen(false)
-                hoveredOverLog({ ...analyticsBasicParams() })
-            }}
+            // }}
+            // onClick={(e) => handleClick(e, false, "Card")}
+            // onMouseLeave={() => {
+            //     setOpen(false)
+            //     hoveredOverLog({ ...analyticsBasicParams() })
+            // }}
         >
             <div className={"hiring-card-favorite"}>
                 {
@@ -191,10 +191,10 @@ const HiringCard = ({ id, attributes: {
                                                     target="_blank"
 
                                                     disableElevation
-                                                    onClick={() => {
-                                                        viewCVLog({ ...analyticsBasicParams() })
-                                                    }
-                                                    }
+                                                    // onClick={() => {
+                                                    //     viewCVLog({ ...analyticsBasicParams() })
+                                                    // }
+                                                    // }
 
                                                 >
                                                     View CV
@@ -214,7 +214,7 @@ const HiringCard = ({ id, attributes: {
                                                     sx={{
                                                         height: '40px'
                                                     }}
-                                                    onClick={(e) => handleClick(e, true, "About Me Button")}
+                                                    // onClick={(e) => handleClick(e, true, "About Me Button")}
                                                 >
                                                     About Me
                                                 </SEButton>
@@ -229,7 +229,7 @@ const HiringCard = ({ id, attributes: {
                                                         backgroundColor: SE_GREY,
                                                         color: 'white'
                                                     }}
-                                                    onClick={() => githubPressed({ ...analyticsBasicParams() })}
+                                                    // onClick={() => githubPressed({ ...analyticsBasicParams() })}
                                                     fullWidth
                                                     href={github}
                                                     target="_blank"
@@ -245,7 +245,7 @@ const HiringCard = ({ id, attributes: {
                                                     disableElevation
                                                     fullWidth
                                                     href={calendly}
-                                                    onClick={() => interviewBooked({ ...analyticsBasicParams() })}
+                                                    // onClick={() => interviewBooked({ ...analyticsBasicParams() })}
                                                     target="_blank"
                                                     sx={{
                                                         height: '40px',

@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { styled, useTheme } from "@mui/styles";
 import { Autocomplete, Checkbox, Divider, Grid, TextField, Typography, useMediaQuery, Button } from "@mui/material";
-import HiringCard from "../../components/HiringCard/HiringCard";
+// import HiringCard from "../../components/HiringCard/HiringCard";
 // import { LANGUAGES } from "../../utils/constants/languages";
 import { PROJECT_TYPES,JOB_TYPES, LANGUAGES, MAJORS, SKILLS } from "../../utils/constants/projects-types";
 import SearchIcon from '@mui/icons-material/Search';
@@ -26,13 +26,13 @@ import { hooks } from "../../api";
 import Loader from "../../components/Loader";
 import SEButton from "../../components/SEButton";
 import { SE_GREY } from "../../utils/constants/colors";
-import { portalAccessed, searchLog } from "../../logger/analyticsTracking";
+// import { portalAccessed, searchLog } from "../../logger/analyticsTracking";
 import { useAuth0 } from "@auth0/auth0-react";
 import HiringCard2 from '../../components/HiringCard/HiringCard2';
 import SwiperCore, { Virtual, Navigation, Pagination } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/react';
 
-SwiperCore.use([Virtual, Navigation, Pagination]);
+SwiperCore.use([ Virtual, Navigation, Pagination ]);
 
 
 export const CustomTextField = styled(TextField)({
@@ -73,7 +73,9 @@ const HiringPortal = () => {
     const filterSize = useResizeObserver(filterMounted && filterRef);
     const isSmall = useMediaQuery(theme.breakpoints.down('md'));
     const isSM = useMediaQuery(theme.breakpoints.down('sm'));
-    const [cards, setCards] = useState([])
+    const [cards, setCards] = useState([
+        1,2,3,4,5,6,7,8,9,0,1,2,3,4
+    ])
 
     useEffect(() => {
         if (filterRef.current) {
@@ -81,48 +83,48 @@ const HiringPortal = () => {
         }
     })
 
-    useEffect(() => {
-        if (students) {
-            const languageOptionsTemp = new Set()
+    // useEffect(() => {
+    //     if (students) {
+    //         const languageOptionsTemp = new Set()
 
-            students.forEach(student => {
-                student.attributes.programmingLanguages.forEach(e => {
-                    if (e.language) {
-                        languageOptionsTemp.add(e.language)
-                    }
-                }
-                )
-            })
+    //         students.forEach(student => {
+    //             student.attributes.programmingLanguages.forEach(e => {
+    //                 if (e.language) {
+    //                     languageOptionsTemp.add(e.language)
+    //                 }
+    //             }
+    //             )
+    //         })
 
-            setLanguageOptions(Array.from(languageOptionsTemp).sort())
-        }
-    }, [students])
+    //         setLanguageOptions(Array.from(languageOptionsTemp).sort())
+    //     }
+    // }, [students])
 
-    useEffect(() => {
-        if (students) {
+    // useEffect(() => {
+    //     if (students) {
 
-            setCards(
-                students.filter((proj) =>
-                    prevLanguages.length !== 0 ? arraySubset(prevLanguages, proj.attributes.programmingLanguages.map(e => e.language)) : true
-                )
-                    .filter((proj) =>
-                        prevProjectTypes.length !== 0 ? arraySubset(prevProjectTypes, proj.attributes.projectType.map(e => e.type)) : true
-                    )
-                    .filter((proj) => {
-                        if (prevFavoritesOnly) {
-                            const favoriteIds = favorites.map((e) => e?.attributes?.student?.data?.id)
-                            return favoriteIds.includes(proj.id)
-                        }
-                        return true
-                    }).sort((a, b) => { return a.attributes.name > b.attributes.name ? 1 : -1 })
-            )
-            searchLog({ user, prevLanguages, prevProjectTypes })
-        }
-    }, [students, prevLanguages, prevProjectTypes, prevFavoritesOnly, favorites])
+    //         setCards(
+    //             students.filter((proj) =>
+    //                 prevLanguages.length !== 0 ? arraySubset(prevLanguages, proj.attributes.programmingLanguages.map(e => e.language)) : true
+    //             )
+    //                 .filter((proj) =>
+    //                     prevProjectTypes.length !== 0 ? arraySubset(prevProjectTypes, proj.attributes.projectType.map(e => e.type)) : true
+    //                 )
+    //                 .filter((proj) => {
+    //                     if (prevFavoritesOnly) {
+    //                         const favoriteIds = favorites.map((e) => e?.attributes?.student?.data?.id)
+    //                         return favoriteIds.includes(proj.id)
+    //                     }
+    //                     return true
+    //                 }).sort((a, b) => { return a.attributes.name > b.attributes.name ? 1 : -1 })
+    //         )
+    //         searchLog({ user, prevLanguages, prevProjectTypes })
+    //     }
+    // }, [students, prevLanguages, prevProjectTypes, prevFavoritesOnly, favorites])
 
-    useEffect(() => {
-        portalAccessed({ user })
-    }, [])
+    // useEffect(() => {
+    //     portalAccessed({ user })
+    // }, [])
     // useEffect(()=> {
     //
     //     setCards(projects.filter((proj) =>
@@ -452,6 +454,7 @@ const HiringPortal = () => {
                         autoplay={{ delay: 1500, disableOnInteraction: false }}
                         // loop={true}
                         style={{width:'100%'}}
+                        loop={true}
 
                     >
                         <SwiperSlide>
