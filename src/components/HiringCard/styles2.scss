@@ -1,0 +1,159 @@
+.hiring-container {
+    background-color: transparent;
+    border: 1px solid #e1e1e1;
+    padding: 30px ;
+    border-radius: 10px ;
+    cursor: pointer;
+    transition: background-color 0.3s ease-in-out;
+}
+.hiring-container:hover {
+    background-color: #f3f2f2;
+    box-shadow: 1px 1px 10px 0px rgba(0,0,0,0.1);
+}
+.swiper-container {
+    width: 100% !important ;
+}
+
+.swiper-button-prev, .swiper-button-next {
+    color: #643A7A;
+}
+.swiper-button-prev {
+    margin-left: -12px ;
+}
+.swiper-button-next {
+    margin-right: -12px ;
+}
+.swiper-button-disabled {
+    display: none !important ;
+}
+
+.swiper-button-next:after, .swiper-button-prev:after, .swiper-button-next:before, .swiper-button-prev:before  {
+    font-size: 22px ;
+    z-index: 100;
+}
+.swiper-button-prev::before, .swiper-button-next::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -30px;
+    bottom: 0;
+    right: 0%;
+    width: 400%;
+// linear gradient line from white to transparent 
+    background: linear-gradient(to right, rgba(255, 255, 255, 1) 0%,rgba(255, 255, 255, 1) 35% ,rgba(255, 255, 255, 0) 100%);
+}
+.swiper-button-next::before {
+    background: linear-gradient(to left, rgba(255, 255, 255, 1) 0%,rgba(255, 255, 255, 1) 60% ,rgba(255, 255, 255, 0) 100%);
+}
+.hiring-slide .MuiChip-root {
+    width: 100% !important ;
+}
+.hiring-container:hover .swiper-button-next::before {
+    background: linear-gradient(to left, #f3f2f2 0%,#f3f2f2 60% ,rgba(255, 255, 255, 0) 100%);  
+} 
+.hiring-container:hover .swiper-button-prev::before {
+    background: linear-gradient(to right, #f3f2f2 0%,#f3f2f2 35% ,rgba(255, 255, 255, 0) 100%);
+} 
+
+.card {
+    --background:#FFFFFF;
+    --text:black;
+    position: relative;
+    // box-shadow:0 0 2rem -1rem rgba(0,0,0,.05);
+    .multi-button {
+        z-index:0;
+        position: absolute;
+        top:1.25rem;
+        left:1.25rem;
+        border-radius:100%;
+        width:0rem;
+        height:0rem;
+        transform: translate(-50%, -50%);
+        transition: .25s cubic-bezier(0.25, 0, 0, 1);
+        button {
+            display: grid;
+            place-items: center;
+            position: absolute;
+            width:2rem;
+            height:2rem;
+            border:none;
+            border-radius:100%;
+            background: var(--background);
+            color: white;
+            transform: translate(-50%, -50%);
+            cursor: pointer;
+            transition: .25s cubic-bezier(0.25, 0, 0, 1);
+            box-shadow:0 0 0rem -.25rem var(--background);
+            &:hover {
+                background: #643A7A;
+                color: white;
+                box-shadow:0 0 1rem -.25rem var(--background);
+            }
+            &:first-child:nth-last-child(1) { //If there is 1 child
+                left:25%;
+                top:25%;
+            }
+            &:first-child:nth-last-child(2),
+            &:first-child:nth-last-child(2) ~ * { //If there are 2 children
+                &:nth-child(1) {
+                    left:37.5%;
+                    top:18.75%;
+                }
+                &:nth-child(2) {
+                    left:18.75%;
+                    top:37.5%;
+                }
+            }
+            &:first-child:nth-last-child(3),
+            &:first-child:nth-last-child(3) ~ * { //If there are 3 children
+                &:nth-child(1) {
+                    left:50%;
+                    top:15.625%;
+                }
+                &:nth-child(2) {
+                    left:25%;
+                    top:25%;
+                }
+                &:nth-child(3) {
+                    left:15.625%;
+                    top:50%;
+                }
+            }
+            &:first-child:nth-last-child(4), //If there are 4 children, if first child is also 4th item from bottom get self, and
+            &:first-child:nth-last-child(4) ~ * { //If there are 4 children, if first child is also 4th item from bottom get siblings
+                &:nth-child(1) {
+                    left:62.5%;
+                    top:18.75%;
+                }
+                &:nth-child(2) {
+                    left:37.5%;
+                    top:18.75%;
+                }
+                &:nth-child(3) {
+                    left:18.75%;
+                    top:37.5%;
+                }
+                &:nth-child(4) {
+                    left:18.75%;
+                    top:62.5%;
+                }
+            }
+        }
+    }
+    .container {
+        position: absolute;
+        width:100%;
+        height:100%;
+        border-radius:1rem;
+        // background:var(--background);
+        // color:var(--text);
+    }
+    &:hover .multi-button, .multi-button:focus-within { //Hover or a button inside is focused
+        width:10rem;
+        height:10rem;
+        
+    }
+    &:hover .multi-button button, .multi-button:focus-within button { //Hover or a button inside is focused
+        background-color: #643A7A;
+    }
+}
