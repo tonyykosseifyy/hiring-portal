@@ -2,7 +2,7 @@
 
 .hiring-portal-container {
   min-height: 100vh;
-  padding: 2% 10vh;
+  padding: 2% 7vw;
   background: #fafafa;
   max-width: 1700px;
   margin: auto;
@@ -102,4 +102,10 @@
   //transition:  all 0.3s ease-in-out;
   //transition-duration: 150ms;
   position: relative;
+}
+
+@media screen and (max-width: 425px) {
+  .hiring-portal-container {
+    padding: 2% 4vw;
+  }
 }
