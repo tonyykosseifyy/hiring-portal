@@ -80,6 +80,9 @@ const HiringPortal = () => {
     ])
 
     useEffect(() => {
+        
+    },[])
+    useEffect(() => {
         if (filterRef.current) {
             setFilterMounted(true)
         }
