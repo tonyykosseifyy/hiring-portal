@@ -31,6 +31,8 @@ import { useAuth0 } from "@auth0/auth0-react";
 import HiringCard2 from '../../components/HiringCard/HiringCard2';
 import SwiperCore, { Virtual, Navigation, Pagination, Autoplay} from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/react';
+import studentsData from './data';
+
 
 SwiperCore.use([ Virtual, Navigation, Pagination, Autoplay ]);
 
@@ -51,7 +53,7 @@ export const CustomTextField = styled(TextField)({
 const HiringPortal = () => {
     const { data: user, isLoading: isLoadingUser } = hooks.useCurrentUser();
     const [languages, setLanguages] = useState([]);
-    const [projectTypes, setProjectTypes] = useState([]);
+    const [ jobTypes , setJobsTypes ] = useState([]);
     const [ majors, setMajors ] = useState([]) ;
     const [ skills, setSkills ] = useState([]);
 
@@ -170,9 +172,9 @@ const HiringPortal = () => {
                                                 </Typography>
                                                 <Autocomplete
                                                     multiple
-                                                    value={projectTypes}
+                                                    value={jobTypes}
                                                     onChange={(e, newValue) => {
-                                                        setProjectTypes(newValue)
+                                                        setJobsTypes(newValue)
                                                     }}
                                                     options={JOB_TYPES}
                                                     onClick={e => { e.preventDefault(); setFilterOpen(true) }}
@@ -299,14 +301,13 @@ const HiringPortal = () => {
                                                     width: '30%'
                                                 }}
                                                 variant='contained'
-                                                onClick={() => {
-                                                    setPrevProjectTypes(projectTypes)
-                                                    setPrevLanguages(languages)
-                                                    setFilterOpen(false)
-                                                    setPrevFavoritesOnly(favoritesOnly)
-
-                                                }
-                                                }
+                                                // onClick={() => {
+                                                //     setPrevProjectTypes(projectTypes)
+                                                //     setPrevLanguages(languages)
+                                                //     setFilterOpen(false)
+                                                //     setPrevFavoritesOnly(favoritesOnly)
+                                                // }
+                                                // }
                                             >
                                                 Show Results
                                             </Button>
