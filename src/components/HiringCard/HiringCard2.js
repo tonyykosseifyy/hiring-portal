@@ -128,7 +128,7 @@ function HiringCard2({ favorite_users, favorite, currentUser, id, languages, des
   
   console.log(full_name , isFavorite);
   return (
-    <div className='hiring-container card'>
+    <div className={`hiring-container card ${Available ? '' : 'hiring-container-blurred'}`}>
       {/* <div class="multi-button">
         <LightTooltip  TransitionComponent={Zoom} placement="top" title="View LinkedIn" arrow>
           <button class="fas fa-heart">
@@ -192,7 +192,7 @@ function HiringCard2({ favorite_users, favorite, currentUser, id, languages, des
         sx={{ transform: 'scale(0.85)'}}
       />
 
-      <Typography mt={4} variant="body2">
+      <Typography sx={{ height: '50px' }} mt={4} variant="body2">
         {description}
       </Typography>
 

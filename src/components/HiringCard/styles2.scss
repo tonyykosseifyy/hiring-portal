@@ -6,9 +6,16 @@
     cursor: pointer;
     transition: background-color 0.3s ease-in-out;
 }
+
+.hiring-container-blurred {
+    opacity: .8 ;
+}
+
+
 .hiring-container:hover {
     background-color: #f3f2f2;
     box-shadow: 1px 1px 10px 0px rgba(0,0,0,0.1);
+    opacity: 1;
 }
 .swiper-container {
     width: 100% !important ;

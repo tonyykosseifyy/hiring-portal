@@ -179,12 +179,6 @@ const HiringPortal = () => {
         <div className={"hiring-portal-wrapper"}>
             <div className={"hiring-portal-container"}>
                 <div className={"hiring-portal-cards-container"}>
-                    {/* <Typography variant={"h3"} marginTop={4} fontWeight={600} fontSize={40}>
-                        Hiring Portal
-                    </Typography>
-                    <Typography variant={"h5"} fontSize={33}>
-                        Hire Our Qualified, Job-Ready Tech Grads from Lebanon
-                    </Typography> */}
                     <div style={{display: ''}} className={"hiring-portal-intro-container"}>
                         <Grid container>
                             <Grid item xs={12} sm={12} md={12} lg={12} ref={filterRef}>
@@ -289,11 +283,11 @@ const HiringPortal = () => {
                                                     )}
                                                 />
                                             </div>
-                                            <div style={{ marginTop: '20px', width: !isSmall ? '50%' : '100%', flexBasis: !isSmall ? '50%' : '100%', padding: '5px 0' }}>
-                                                <div style={{ display: "flex",flexDirection:'column', marginTop: '10px' ,maxWidth: '170px' }}>
-                                                <div style={{display: 'flex', alignItems:'center', justifyContent: "space-between"}}>
+                                            <div style={{ marginTop: '20px', width: !isSmall ? '50%' : '100%', flexBasis: !isSmall ? '50%' : '100%', padding: '5px 0', display: 'flex' }}>
+                                                <div style={{ display: "flex",flexDirection:'column', marginTop: '10px' ,maxWidth: '200px' }}>
+                                                    <div style={{display: 'flex', alignItems:'center', justifyContent: "space-between"}}>
                                                         <Typography color='primary' my={1} mr={2} variant={"h5"} fontSize={"17px"}>
-                                                            All Cycles
+                                                            Specified Cycle
                                                         </Typography>
                                                         <Checkbox
                                                             checked={cycles}
@@ -311,7 +305,29 @@ const HiringPortal = () => {
                                                             inputProps={{ 'aria-label': 'controlled' }}
                                                         />
                                                     </div>
-                                                    
+                                                </div>
+
+                                                <div>
+                                                <Autocomplete
+                                                    fullWidth
+                                                    multiple
+                                                    value={languages}
+                                                    onChange={(e, newValue) => {
+                                                        setLanguages(newValue)
+                                                    }}
+                                                    options={filterData.languages}
+                                                    filterSelectedOptions
+                                                    sx={{ zIndex: '10000000000' }}
+                                                    renderInput={(params) => (
+                                                        <CustomTextField
+                                                            {...params}
+                                                            id={"languages"}
+                                                            variant={"filled"}
+                                                            sx={{backroundColor: 'white !important'}}
+                                                            label="Choose language Proficiency here"
+                                                        />
+                                                    )}
+                                                />
                                                 </div>
                                             </div>
                                         </div>
