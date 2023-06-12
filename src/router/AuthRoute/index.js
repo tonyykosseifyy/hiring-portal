@@ -13,18 +13,20 @@ const AuthRoute = ({component: Component, ...args}) => {
 
     // Just for test: added by me 
     isLoggedIn = true ;
-    Cookies.set('se-token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiaWF0IjoxNjg1NjkyMjk5LCJleHAiOjE2ODgyODQyOTl9.ER9T28klY-WJ0AeeAcw13ItnEGgsWJUNS3hoznnGBs0');
+    // Cookies.set('se-token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiaWF0IjoxNjg1NjkyMjk5LCJleHAiOjE2ODgyODQyOTl9.ER9T28klY-WJ0AeeAcw13ItnEGgsWJUNS3hoznnGBs0');
     // finised testing: me
-    
+    // d446fe1fec82196c815c7d5f9efd6b839fec43342b07a6cf5246d75264ab3185d013ffd0f717d4548056bccece6c757ed4883aee3e751af251fadbb41d2f42e32d272ce9e0a0a68457b5b7999247739ca0e8622e1ea301a56d187c16b625d06e5f9392be77039f8781cfa7ce0771542950c9d6e57a6ad5d40f68579435ce4cdf
+    Cookies.set('se-token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiaWF0IjoxNjg2NTczMzI4LCJleHAiOjE2ODkxNjUzMjh9.hIrWlsJqbgSkRNGLZm1ZHbgGjEonGTFen3mMt_AU2Ig')
 
     // const { push } = useHistory();
     // console.log(isLoggedIn)
-    const { data: dbUser, isLoading: isLoadingUser} = hooks.useCurrentUser();
+    // const { data: dbUser, isLoading: isLoadingUser} = hooks.useCurrentUser();
     // // useEffect(() => {
     // //     if(user) {
     // //         portalAccessed({user})
     // //     }
     // // }, [user])
+    let dbUser = true ;
 
 
     return (<Route

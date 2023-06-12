@@ -14,7 +14,7 @@ export default (
     };
 
     const useCurrentUser = () => {
-        const { Api } = useAxios()
+        const { Api } = useAxios() ;
 
         return useQuery({
             queryKey: CURRENT_USER_KEY,

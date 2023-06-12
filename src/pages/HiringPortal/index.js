@@ -1,9 +1,9 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { styled, useTheme } from "@mui/styles";
-import { Autocomplete, Checkbox, Divider, Grid, TextField, Typography, useMediaQuery, Button } from "@mui/material";
+import { Stack, Autocomplete, Checkbox, Divider, Grid, TextField, Typography, useMediaQuery, Button } from "@mui/material";
 // import HiringCard from "../../components/HiringCard/HiringCard";
 // import { LANGUAGES } from "../../utils/constants/languages";
-import { PROJECT_TYPES,JOB_TYPES, LANGUAGES, MAJORS, SKILLS } from "../../utils/constants/projects-types";
+import { JOB_TYPES, LANGUAGES, MAJORS, SKILLS } from "../../utils/constants/projects-types";
 import SearchIcon from '@mui/icons-material/Search';
 import { arraySubset } from "../../utils/helpers/arraySubset";
 import './styles.scss';
@@ -24,6 +24,7 @@ import { Popover } from "react-tiny-popover";
 import useResizeObserver from 'beautiful-react-hooks/useResizeObserver';
 import { hooks } from "../../api";
 import Loader from "../../components/Loader";
+import SentimentDissatisfiedIcon from '@mui/icons-material/SentimentDissatisfied';
 import SEButton from "../../components/SEButton";
 import { SE_GREY } from "../../utils/constants/colors";
 // import { portalAccessed, searchLog } from "../../logger/analyticsTracking";
@@ -32,7 +33,7 @@ import HiringCard2 from '../../components/HiringCard/HiringCard2';
 import SwiperCore, { Virtual, Navigation, Pagination, Autoplay} from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import studentsData from './data';
-
+import { getSkills, getFavorites, getJobTypes, getLanguages, getMajors, getStudents, getInitialStudent, getCurrentUser } from '../../context/axios/herlper';
 
 SwiperCore.use([ Virtual, Navigation, Pagination, Autoplay ]);
 
@@ -51,23 +52,23 @@ export const CustomTextField = styled(TextField)({
 });
 
 const HiringPortal = () => {
-    const { data: user, isLoading: isLoadingUser } = hooks.useCurrentUser();
+    const [ filterData , setFilterData] = useState({ languages: [], jobTypes: [], majors: [], skills: [] });
+
+    // const { data: user, isLoading: isLoadingUser } = hooks.useCurrentUser();
     const [languages, setLanguages] = useState([]);
     const [ jobTypes , setJobsTypes ] = useState([]);
     const [ majors, setMajors ] = useState([]) ;
     const [ skills, setSkills ] = useState([]);
+    const [ students, setStudents ] = useState([]);
+    const [ showResults, setShowResults ] = useState(false);
 
-    const [hiringStatus, setHiringStatus] = useState('');
-    const [prevLanguages, setPrevLanguages] = useState([])
-    const [prevProjectTypes, setPrevProjectTypes] = useState([])
-    const [prevFilterOpen, setPrevFilterOpen] = useState(false)
-    const [filters, setFilters] = useState({})
-    const [filterOpen, setFilterOpen] = useState(false)
-    const [languageOptions, setLanguageOptions] = useState([])
-    const { data: students, isLoading: isLoadingStudents } = hooks.useStudents()
-    const { data: favorites, isLoading: isLoadingFavorites } = hooks.useFavorites()
+    const [ currentUser, setCurrentUser ] = useState({}); 
+    // Edited by me
+    // const { data: students, isLoading: isLoadingStudents } = hooks.useStudents()
+    // const { data: favorites, isLoading: isLoadingFavorites } = hooks.useFavorites()
+
+    const [ isLoading, setIsLoading ] = useState(true);
     const [favoritesOnly, setFavoritesOnly] = useState(false);
-    const [prevFavoritesOnly, setPrevFavoritesOnly] = useState(false);
     const [ cycles, setCycles ] = useState(false);
     const theme = useTheme()
     const [filterMounted, setFilterMounted] = useState(false)
@@ -75,19 +76,51 @@ const HiringPortal = () => {
     const filterSize = useResizeObserver(filterMounted && filterRef);
     const isSmall = useMediaQuery(theme.breakpoints.down('md'));
     const isSM = useMediaQuery(theme.breakpoints.down('sm'));
-    const [cards, setCards] = useState([
-        1,2,3,4,5,6,7,8,9,0,1,2,3,4
-    ])
 
     useEffect(() => {
-        
+        setIsLoading(true);
+        Promise.all([getSkills, getLanguages, getJobTypes, getMajors, getInitialStudent, getCurrentUser])
+        .then(responses => {
+            // Handle the responses
+            const response1 = responses[0]?.data;
+            const response2 = responses[1]?.data;
+            const response3 = responses[2]?.data;
+            const response4 = responses[3]?.data; 
+            const response5 = responses[4]?.data;
+            const response6 = responses[5]?.data;
+            setStudents(response5);
+            setCurrentUser(response6);
+            setFilterData({ languages: response2, jobTypes: response3, majors: response4, skills: response1 });
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert("Error in fetching data");
+        })
+        .finally(() => setIsLoading(false));
+
     },[])
     useEffect(() => {
-        if (filterRef.current) {
-            setFilterMounted(true)
+        async function fetchData() {
+            setIsLoading(true);
+            try {
+                const response = await getStudents({languages, jobTypes, majors, skills, favorite: favoritesOnly});
+                console.log(response, 'response');
+                setStudents(response?.data);
+            } catch(err) {
+                console.log(err);
+                alert("Error in fetching data");
+            }finally {
+                setIsLoading(false);
+            }
         }
-    })
-
+        fetchData();
+    },[showResults])
+    // useEffect(() => {
+    //     if (filterRef.current) {
+    //         setFilterMounted(true)
+    //     }
+    // })
+    console.log(students);
     // useEffect(() => {
     //     if (students) {
     //         const languageOptionsTemp = new Set()
@@ -140,14 +173,7 @@ const HiringPortal = () => {
     //
     // },[prevLanguages,prevProjectTypes])
 
-    useEffect(() => {
-        // window.addEventListener(
-        //     "scroll",
-        //     () => setFilterOpen(false),
-        //     { passive: true }
-        // )
-        // by me
-    }, [])
+
 
     return (
         <div className={"hiring-portal-wrapper"}>
@@ -179,8 +205,7 @@ const HiringPortal = () => {
                                                     onChange={(e, newValue) => {
                                                         setJobsTypes(newValue)
                                                     }}
-                                                    options={JOB_TYPES}
-                                                    onClick={e => { e.preventDefault(); setFilterOpen(true) }}
+                                                    options={filterData.jobTypes}
                                                     filterSelectedOptions
                                                     sx={{ zIndex: '10000000000' }}
                                                     renderInput={(params) => (
@@ -203,7 +228,7 @@ const HiringPortal = () => {
                                                     onChange={(e, newValue) => {
                                                         setSkills(newValue)
                                                     }}
-                                                    options={SKILLS}
+                                                    options={filterData.skills}
                                                     filterSelectedOptions
                                                     sx={{ zIndex: '10000000000' }}
                                                     renderInput={(params) => (
@@ -227,8 +252,7 @@ const HiringPortal = () => {
                                                     onChange={(e, newValue) => {
                                                         setMajors(newValue)
                                                     }}
-                                                    options={MAJORS}
-                                                    onClick={e => { e.preventDefault(); setFilterOpen(true) }}
+                                                    options={filterData.majors}
                                                     filterSelectedOptions
                                                     sx={{ zIndex: '10000000000' }}
                                                     renderInput={(params) => (
@@ -251,7 +275,7 @@ const HiringPortal = () => {
                                                     onChange={(e, newValue) => {
                                                         setLanguages(newValue)
                                                     }}
-                                                    options={LANGUAGES}
+                                                    options={filterData.languages}
                                                     filterSelectedOptions
                                                     sx={{ zIndex: '10000000000' }}
                                                     renderInput={(params) => (
@@ -303,6 +327,7 @@ const HiringPortal = () => {
                                                     maxWidth: '300px',
                                                     width: '30%'
                                                 }}
+                                                onClick={() => setShowResults(prev => !prev)}
                                                 variant='contained'
                                                 // onClick={() => {
                                                 //     setPrevProjectTypes(projectTypes)
@@ -373,7 +398,7 @@ const HiringPortal = () => {
                     </div>
                     <Grid container spacing={isSM ? 0 : isSmall ? 2 : 5} marginBottom={3}>
                         {
-                            isLoadingFavorites || isLoadingStudents ?
+                            isLoading ?
                                 <Loader SELogo />
                                 :
                                 <>
@@ -385,18 +410,25 @@ const HiringPortal = () => {
                                         </Typography> */}
 
                                     </Grid>
+                                    {students.length === 0 && !isLoading && 
+                                    <Stack direction="row" alignItems="center" justifyContent='center' sx={{width: '100%'}} mt={4} mb={6}>
+                                        <Typography variant={"h6"} mr={2} color='primary' fontSize="20px" textAlign={"center"}>No results found</Typography> 
+                                        <SentimentDissatisfiedIcon color='primary' />
+                                    </Stack>
+                                    }
                                     {
                                         // cards?.length > 0 ?
-                                        cards.map((props, index) => (
+                                        students?.map((props, index) => (
                                             <Grid style={{
                                                 marginTop: isSmall && '10px', marginBottom: isSmall && '10px'
 
                                             }} key={`card-${index}`} item xs={12} sm={12} md={6} lg={4} mt={2}>
                                                 {/* <HiringCard {...props} /> */}
-                                                <HiringCard2 {...props} item xs={12} sm={12} md={12} lg={12} mt={2} />
+                                                <HiringCard2 currentUser={currentUser} {...props} item xs={12} sm={12} md={12} lg={12} mt={2} />
                                             </Grid>
+                                            )
                                         )
-                                        )
+                                        
                                         // :
                                         // <>
                                         //     <Grid item xs={12} my={2}>
@@ -422,6 +454,7 @@ const HiringPortal = () => {
                                     }</>
                         }
 
+                        
                     </Grid>
                 </div>
                 <Grid container className='hiring-grid' spacing={2} mt={12} mb={7}>
