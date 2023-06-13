@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { styled, useTheme } from "@mui/styles";
 import {
   Stack,
@@ -172,12 +172,15 @@ const HiringPortal = () => {
     fetchData();
   }, [showResults]);
 
-  const handleDateChange = (date) => {
+  const handleDateChange = useCallback((date) => {
     if (cycleDate["$y"] === date["$y"]) {
       setClosed(true);
     }
     setCycleDate(date);
-  };
+  }, [ cycleDate ]);
+
+	console.log("students",students);
+	console.log("isloading", isLoading);
   return (
     <div className={"hiring-portal-wrapper"}>
 			<Snackbar anchorOrigin={{ vertical: 'top', horizontal: 'center' }} open={openSnackar} autoHideDuration={8000} onClose={() => setOpenSnackbar(false)}>
@@ -470,7 +473,7 @@ const HiringPortal = () => {
             ) : (
               <>
                 <Grid item xs={12} my={2}></Grid>
-                {students?.length === 0 && !isLoading && (
+                {(students?.length === 0 || !students || students?.data.length === 0) && !isLoading && (
                   <Stack
                     direction="row"
                     alignItems="center"
@@ -492,7 +495,7 @@ const HiringPortal = () => {
                   </Stack>
                 )}
                 {
-                  // cards?.length > 0 ?
+                 students?.length > 0 &&
                   students?.map((props, index) => (
                     <Grid
                       style={{

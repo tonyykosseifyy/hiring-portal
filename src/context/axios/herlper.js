@@ -29,13 +29,7 @@ const displayError = (err) => {
     }
 }
 
-export const getStudents = async (filter) => {
-    try {
-         return await axios.post(STUDENTS_API_ROUTE + "/findByFilters",filter) ;
-    } catch(err) {
-        return displayError(err);
-    }
-}
+export const getStudents = async (filter) => await axios.post(STUDENTS_API_ROUTE + "/findByFilters",filter) ;
 
 export const getInitialStudent = axios.post(STUDENTS_API_ROUTE + "/findByFilters");
 export const getSkills = axios.get(SKILLS_API_ROUTE) ;
