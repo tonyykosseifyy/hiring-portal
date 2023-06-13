@@ -126,7 +126,6 @@ function HiringCard2({ favorite_users, favorite, currentUser, id, languages, des
     setIsFavorite(includesFavorite(favorite_users, currentUser));
   },[favorite_users, currentUser])
   
-  console.log(full_name , isFavorite);
   return (
     <div className={`hiring-container card ${Available ? '' : 'hiring-container-blurred'}`}>
       {/* <div class="multi-button">
