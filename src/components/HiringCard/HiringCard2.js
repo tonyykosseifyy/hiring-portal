@@ -102,22 +102,19 @@ const useStyles = makeStyles({
 });
   
 
-function HiringCard2({ favorite_users, favorite, currentUser, id, languages, description, gender, full_name, job_types, majors, skills,Available, linkedin, cv, interview }) {
+function HiringCard2({ favorite_users, currentUser, id, languages, description, gender, full_name, job_types, majors, skills,Available, linkedin, cv, interview }) {
   const classes = useStyles();
   const [ isFavorite, setIsFavorite ] = useState(false);
   const [swiperRef, setSwiperRef] = useState(null);
-  const [slides, setSlides] = useState(
-    Array.from({ length: 20 }).map((_, index) => `Skill ${index + 1}`)
-  );
   const theme = useTheme();
   const isMedium = useMediaQuery(theme.breakpoints.down('md')) ;
   const isSmall = useMediaQuery(theme.breakpoints.down('sm')) ;
   
   const toggleIsFavorite = useCallback(() => {
     if (isFavorite) {
-      deleteFavorite(id)
+      deleteFavorite(id);
     } else {
-      createFavorite(id)
+      createFavorite(id);
     }
     setIsFavorite((prev) => !prev);
   },[isFavorite, id])
@@ -156,10 +153,10 @@ function HiringCard2({ favorite_users, favorite, currentUser, id, languages, des
               anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
               variant="dot"
             >
-              <Avatar sx={{width: 50, height: 50}} alt="Remy Sharp" src={gender === 'Male' ? ManImage:WomanImage} />
+              <Avatar sx={{width: 50, height: 50}} alt={full_name} src={gender === 'Male' ? ManImage:WomanImage} />
             </StyledBadge> 
             :   
-            <Avatar sx={{width: 50, height: 50}} alt="Remy Sharp" src={gender === 'Male' ? ManImage:WomanImage} />
+            <Avatar sx={{width: 50, height: 50}} alt={full_name} src={gender === 'Male' ? ManImage:WomanImage} />
 
           }
 
@@ -201,7 +198,7 @@ function HiringCard2({ favorite_users, favorite, currentUser, id, languages, des
 			<Divider />
       <Stack mt={2} direction='row' spacing={1}>
         { languages?.map((language, index) => (
-          <Chip key={language?.id} label={language?.language} size='small' />
+          <Chip key={language?.language} label={language?.language} size='small' />
         ))}
 
       </Stack>
@@ -219,26 +216,12 @@ function HiringCard2({ favorite_users, favorite, currentUser, id, languages, des
           virtual
         >
           {skills?.map((skill, index) => (
-            <SwiperSlide className='hiring-slide' key={skill?.id} virtualIndex={index}>
+            <SwiperSlide className='hiring-slide' key={skill?.skill} virtualIndex={index}>
               <Chip label={skill?.skill} variant='filled' size='small' />
             </SwiperSlide>
           ))}
         </Swiper>
       </Stack>
-      {/* <LinkedInButton startIcon={<BsLinkedin color="white" />} variant='outlined'>
-            View LinkedIn
-          </LinkedInButton>
-      <Stack mt={4} direction='row' justifyContent='flex-end'>
-        <Stack direction='row'>
-          
-          <Button startIcon={<GrDocumentText />} variant='outlined' color='secondary'>
-            View Resume
-          </Button>
-          <Button startIcon={<FaPeopleArrows />} variant='contained' color='primary'>
-            Book Interview
-          </Button>
-        </Stack>
-      </Stack> */}
       
       <Stack mt={4} direction='row' alignItems='center' justifyContent='center'>
         <Button sx={{fontSize:'10px'}} startIcon={<FaPeopleArrows color='#643A7A' />} variant='outlined' fullWidth>Book interview</Button>

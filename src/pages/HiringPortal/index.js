@@ -13,12 +13,8 @@ import {
 } from "@mui/material";
 // import HiringCard from "../../components/HiringCard/HiringCard";
 // import { LANGUAGES } from "../../utils/constants/languages";
-import {
-  JOB_TYPES,
-  LANGUAGES,
-  MAJORS,
-  SKILLS,
-} from "../../utils/constants/projects-types";
+import Snackbar from '@mui/material/Snackbar';
+import MuiAlert from '@mui/material/Alert';
 import SearchIcon from "@mui/icons-material/Search";
 import dayjs from "dayjs";
 import { arraySubset } from "../../utils/helpers/arraySubset";
@@ -28,16 +24,6 @@ import {
   HIRED,
   HIRING_STATUS,
 } from "../../utils/constants/hiring-status";
-// import Fanar from "../../assets/partners/AlFanar.jpeg";
-// import Drosos from "../../assets/partners/Drosos.png";
-// import EU from "../../assets/partners/EU.png";
-// import HopesLeb from "../../assets/partners/HopesLeb.png";
-// import Life from "../../assets/partners/Life.jpeg";
-// import Unicef from "../../assets/partners/Unicef.png";
-// import Netherlands from '../../assets/partners/netherlands.png';
-// import AbdelAziz from '../../assets/partners/abdelAziz.png';
-// import Deloitte from '../../assets/partners/deloitte.png';
-// import Generations from '../../assets/partners/generationOfInnovation.png';
 import Partners from "../../assets/partners/SEF_sponsors apr 2023.png";
 import { ReactComponent as ArrowDown } from "../../assets/common/Vector.svg";
 import { Popover } from "react-tiny-popover";
@@ -66,20 +52,16 @@ import { DemoContainer, DemoItem } from "@mui/x-date-pickers/internals/demo";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { YearCalendar } from "@mui/x-date-pickers/YearCalendar";
-import { MonthCalendar } from "@mui/x-date-pickers/MonthCalendar";
+
+
+const Alert = React.forwardRef(function Alert(props, ref) {
+  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
 
 SwiperCore.use([Virtual, Navigation, Pagination, Autoplay]);
 
-// function that generates years in an array from 1980 till present
 
-const generateYears = () => {
-  let years = [];
-  for (let i = 1980; i <= new Date().getFullYear(); i++) {
-    years.push(i);
-  }
-  return years;
-};
-let years = generateYears();
+
 
 export const CustomTextField = styled(TextField)({
   "& .MuiFilledInput-root": {
@@ -113,7 +95,10 @@ const HiringPortal = () => {
   const [currentUser, setCurrentUser] = useState({});
   const [cycleDate, setCycleDate] = useState(dayjs());
   const [closed, setClosed] = useState(true);
-  // Edited by me
+
+	const [ openSnackar, setOpenSnackbar ] = useState(false);
+  
+	// Edited by me
   // const { data: students, isLoading: isLoadingStudents } = hooks.useStudents()
   // const { data: favorites, isLoading: isLoadingFavorites } = hooks.useFavorites()
 
@@ -156,7 +141,7 @@ const HiringPortal = () => {
       })
       .catch((error) => {
         console.error("Error:", error);
-        alert("Error in fetching data");
+        setOpenSnackbar(true);
       })
       .finally(() => setIsLoading(false));
   }, []);
@@ -167,7 +152,6 @@ const HiringPortal = () => {
       if (cycleDate && cycles) {
         cyclesFilter.cycleDate = cycleDate?.["$y"];
       }
-
       try {
         const response = await getStudents({
           languages,
@@ -180,7 +164,7 @@ const HiringPortal = () => {
         setStudents(response?.data);
       } catch (err) {
         console.log(err);
-        alert("Error in fetching data");
+        setOpenSnackbar(true);
       } finally {
         setIsLoading(false);
       }
@@ -196,6 +180,11 @@ const HiringPortal = () => {
   };
   return (
     <div className={"hiring-portal-wrapper"}>
+			<Snackbar anchorOrigin={{ vertical: 'top', horizontal: 'center' }} open={openSnackar} autoHideDuration={8000} onClose={() => setOpenSnackbar(false)}>
+        <Alert onClose={() => setOpenSnackbar(false)} severity="error" sx={{ width: '100%', minWidth:'50vw' }}>
+          An unexpected error occurred. Please try again later, Or refresh the page.
+        </Alert>
+      </Snackbar>
       <div className={"hiring-portal-container"}>
         <div className={"hiring-portal-cards-container"}>
           <div
