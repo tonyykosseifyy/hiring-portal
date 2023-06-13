@@ -5,5 +5,5 @@ export const arraySubset = (arr, target) => {
             filtered.push(e)
         }
     })
-    return filtered.length > 0
+    return filtered?.length > 0
 }

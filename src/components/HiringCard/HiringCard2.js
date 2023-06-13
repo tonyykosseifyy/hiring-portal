@@ -33,14 +33,14 @@ SwiperCore.use([Virtual, Navigation, Pagination]);
 
 // function that takes an array of majors and returns a string of majors seperated by "-" if the array has more than one element
 const displayContent = (content, type, field) => {
-  if (content.length === 0) {
+  if (content?.length === 0) {
     return `No ${type}`
-  } else if (content.length === 1) {
+  } else if (content?.length === 1) {
     return content[0]?.[field]
   } else {
     let contentString = ""
-    for (let i = 0; i < content.length; i++) {
-      if (i === content.length - 1) {
+    for (let i = 0; i < content?.length; i++) {
+      if (i === content?.length - 1) {
         contentString += content[i]?.[field]
       } else {
         contentString += content[i]?.[field] + " - "

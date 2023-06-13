@@ -473,7 +473,7 @@ const HiringPortal = () => {
             ) : (
               <>
                 <Grid item xs={12} my={2}></Grid>
-                {(students?.length === 0 || !students || students?.data.length === 0) && !isLoading && (
+                {(students?.length === 0 || !students ) && !isLoading && (
                   <Stack mt={7} mb={5} sx={{ width: '100%' }} direction="column" alignItems='center' justifyContent='center'>
                     <Stack
                       direction="row"
