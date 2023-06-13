@@ -74,6 +74,59 @@
   padding: 3vh 0 5vh 0;
 }
 
+.cycles-check {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: relative ;
+}
+
+.cycles-autocomplete {
+  // overflow: hidden;
+  transition: .3s ease-out; ;
+  background-color: white;
+  position: absolute;
+  top: 50px;
+  z-index: 100;
+  padding: 15px ;
+  box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.2);
+}
+
+.cycles-autocomplete {
+  scrollbar-width: auto;
+  scrollbar-color: #8f54a0 #ffffff;
+}
+
+/* Chrome, Edge, and Safari */
+.cycles-autocomplete .MuiYearCalendar-root::-webkit-scrollbar {
+  width: 10px;
+}
+
+.cycles-autocomplete .MuiYearCalendar-root::-webkit-scrollbar-track {
+  background: #ffffff;
+}
+
+.cycles-autocomplete .MuiYearCalendar-root::-webkit-scrollbar-thumb {
+  background-color: #643A7A;
+  border-radius: 30px;
+  border: 3px solid #ffffff;
+  cursor: pointer;
+  transition: .3s ease-out;
+}
+
+// .cycles-autocomplete .MuiYearCalendar-root::-webkit-scrollbar-thumb:hover {
+//   background-color: #6a3b83;
+//   transform: scaleX(1.5);
+//   width: 150px;
+//   position: relative;
+//   z-index: 100 ;
+// }
+
+
+.cycles-autocomplete .MuiYearCalendar-root .MuiYearCalendar-root {
+  max-height: 200px ;
+}
+
 
 @media only screen and (max-width: 600px) {
   .hiring-portal-cards-container {
@@ -96,11 +149,19 @@
 .hiring-portal-intro-container {
   margin-top: 26px;
 }
+.cycles-autocomplete-closed {
+  display: none;
+}
 
 .react-tiny-popover-container {
   //transition:  all 0.3s ease-in-out;
   //transition-duration: 150ms;
   position: relative;
+}
+.year-specified {
+  position: absolute;
+  top: 2px;
+  right: -60px;
 }
 
 @media screen and (max-width: 425px) {

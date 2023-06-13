@@ -5,6 +5,7 @@ import { Stack, Autocomplete, Checkbox, Divider, Grid, TextField, Typography, us
 // import { LANGUAGES } from "../../utils/constants/languages";
 import { JOB_TYPES, LANGUAGES, MAJORS, SKILLS } from "../../utils/constants/projects-types";
 import SearchIcon from '@mui/icons-material/Search';
+import dayjs from 'dayjs';
 import { arraySubset } from "../../utils/helpers/arraySubset";
 import './styles.scss';
 import { AVAILABLE_FOR_HIRE, HIRED, HIRING_STATUS } from "../../utils/constants/hiring-status";
@@ -32,11 +33,27 @@ import { useAuth0 } from "@auth0/auth0-react";
 import HiringCard2 from '../../components/HiringCard/HiringCard2';
 import SwiperCore, { Virtual, Navigation, Pagination, Autoplay} from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import studentsData from './data';
-import { getSkills, getFavorites, getJobTypes, getLanguages, getMajors, getStudents, getInitialStudent, getCurrentUser } from '../../context/axios/herlper';
+import { getSkills, getJobTypes, getLanguages, getMajors, getStudents, getInitialStudent, getCurrentUser } from '../../context/axios/herlper';
+
+import { DemoContainer, DemoItem } from '@mui/x-date-pickers/internals/demo';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { YearCalendar } from '@mui/x-date-pickers/YearCalendar';
+import { MonthCalendar } from '@mui/x-date-pickers/MonthCalendar';
+
 
 SwiperCore.use([ Virtual, Navigation, Pagination, Autoplay ]);
 
+// function that generates years in an array from 1980 till present 
+
+const generateYears = () => {
+    let years = [];
+    for (let i = 1980; i <= new Date().getFullYear(); i++) {
+        years.push(i);
+    }
+    return years ;
+}
+let years = generateYears();
 
 export const CustomTextField = styled(TextField)({
     '& .MuiFilledInput-root': {
@@ -63,6 +80,8 @@ const HiringPortal = () => {
     const [ showResults, setShowResults ] = useState(false);
 
     const [ currentUser, setCurrentUser ] = useState({}); 
+    const [ cycleDate, setCycleDate ] = useState(dayjs());
+    const [ closed, setClosed ] = useState(true);
     // Edited by me
     // const { data: students, isLoading: isLoadingStudents } = hooks.useStudents()
     // const { data: favorites, isLoading: isLoadingFavorites } = hooks.useFavorites()
@@ -102,8 +121,13 @@ const HiringPortal = () => {
     useEffect(() => {
         async function fetchData() {
             setIsLoading(true);
+            let cyclesFilter = {};
+            if (cycleDate && cycles) {
+                cyclesFilter.cycleDate = cycleDate?.["$y"] ;
+            }
+
             try {
-                const response = await getStudents({languages, jobTypes, majors, skills, favorite: favoritesOnly});
+                const response = await getStudents({languages, jobTypes, majors, skills, favorite: favoritesOnly, ...cyclesFilter});
                 console.log(response, 'response');
                 setStudents(response?.data);
             } catch(err) {
@@ -173,8 +197,15 @@ const HiringPortal = () => {
     //
     // },[prevLanguages,prevProjectTypes])
 
+    // function that detects autoclick on the same year of the year calendar and closes the calendar
 
-
+    const handleDateChange = (date) => {
+        if (cycleDate["$y"] === date["$y"]) {
+            setClosed(true);
+        }
+        setCycleDate(date);
+    };
+    console.log('cycle Date',cycleDate["$y"]);
     return (
         <div className={"hiring-portal-wrapper"}>
             <div className={"hiring-portal-container"}>
@@ -285,15 +316,43 @@ const HiringPortal = () => {
                                             </div>
                                             <div style={{ marginTop: '20px', width: !isSmall ? '50%' : '100%', flexBasis: !isSmall ? '50%' : '100%', padding: '5px 0', display: 'flex' }}>
                                                 <div style={{ display: "flex",flexDirection:'column', marginTop: '10px' ,maxWidth: '200px' }}>
-                                                    <div style={{display: 'flex', alignItems:'center', justifyContent: "space-between"}}>
-                                                        <Typography color='primary' my={1} mr={2} variant={"h5"} fontSize={"17px"}>
-                                                            Specified Cycle
-                                                        </Typography>
-                                                        <Checkbox
-                                                            checked={cycles}
-                                                            onChange={(event) => setCycles(event.target.checked)}
-                                                            inputProps={{ 'aria-label': 'controlled' }}
-                                                        />
+                                                    <div className={`cycles-check ${cycles && 'cycles-check-open'}`}>                   
+                                                            <Typography color='primary' my={1} mr={2} variant={"h5"} fontSize={"17px"}>
+                                                                Specified Cycle
+                                                            </Typography>
+                                                            <Checkbox
+                                                                checked={cycles}
+                                                                onChange={(event) => {
+                                                                    setCycles(event.target.checked)
+                                                                    setClosed(!event.target.checked)
+                                                                }}
+                                                                inputProps={{ 'aria-label': 'controlled' }}
+                                                            />
+                                                            {cycles && closed && <div className='year-specified'>
+                                                                <Typography onClick={() => setClosed(false)} sx={{cursor:'pointer'}} color='primary' fontWeight={'bold'} my={1} mr={2} variant={"h5"} fontSize={"17px"}>
+                                                                    {cycleDate?.["$y"]}
+                                                                </Typography>
+                                                            </div>}
+                                                        
+                                                        <div className={`cycles-autocomplete ${closed && 'cycles-autocomplete-closed'}`}>
+                                                            <LocalizationProvider dateAdapter={AdapterDayjs}>
+                                                                <DemoContainer components={['YearCalendar']}>
+                                                                    <DemoItem label="Cycle Year">
+                                                                        <YearCalendar 
+                                                                            minDate={dayjs('1980-01-01')} 
+                                                                            maxDate={dayjs()} 
+                                                                            yearsPerRow={3} 
+                                                                            defaultValue={dayjs()} 
+                                                                            value={cycleDate}
+                                                                            onChange={(newValue) => {
+                                                                                handleDateChange(newValue)
+                                                                            }}
+                                                                        />
+                                                                    </DemoItem>
+                                                                </DemoContainer>
+                                                            </LocalizationProvider>
+                                                        </div>
+                                                        
                                                     </div>
                                                     <div style={{display: 'flex', alignItems:'center', justifyContent: "space-between"}}>
                                                         <Typography color='primary' my={1} mr={2} variant={"h5"} fontSize={"17px"}>
@@ -307,28 +366,6 @@ const HiringPortal = () => {
                                                     </div>
                                                 </div>
 
-                                                <div>
-                                                <Autocomplete
-                                                    fullWidth
-                                                    multiple
-                                                    value={languages}
-                                                    onChange={(e, newValue) => {
-                                                        setLanguages(newValue)
-                                                    }}
-                                                    options={filterData.languages}
-                                                    filterSelectedOptions
-                                                    sx={{ zIndex: '10000000000' }}
-                                                    renderInput={(params) => (
-                                                        <CustomTextField
-                                                            {...params}
-                                                            id={"languages"}
-                                                            variant={"filled"}
-                                                            sx={{backroundColor: 'white !important'}}
-                                                            label="Choose language Proficiency here"
-                                                        />
-                                                    )}
-                                                />
-                                                </div>
                                             </div>
                                         </div>
                                         
