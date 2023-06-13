@@ -474,24 +474,36 @@ const HiringPortal = () => {
               <>
                 <Grid item xs={12} my={2}></Grid>
                 {(students?.length === 0 || !students || students?.data.length === 0) && !isLoading && (
-                  <Stack
-                    direction="row"
-                    alignItems="center"
-                    justifyContent="center"
-                    sx={{ width: "100%" }}
-                    mt={4}
-                    mb={6}
-                  >
-                    <Typography
-                      variant={"h6"}
-                      mr={2}
-                      color="primary"
-                      fontSize="20px"
-                      textAlign={"center"}
+                  <Stack mt={7} mb={5} sx={{ width: '100%' }} direction="column" alignItems='center' justifyContent='center'>
+                    <Stack
+                      direction="row"
+                      alignItems="center"
+                      justifyContent="center"
+                      sx={{ width: "100%" }}
+                      mb={1}
                     >
-                      No results found
-                    </Typography>
-                    <SentimentDissatisfiedIcon color="primary" />
+                      <Typography
+                        variant={"h6"}
+                        mr={2}
+                        color="primary"
+                        fontSize="28px"
+                        textAlign={"center"}
+                        fontWeight={'bold'}
+                      >
+                        Sorry! No results found
+                      </Typography>
+                      <SentimentDissatisfiedIcon color="primary" />
+                    </Stack>
+                    <Typography 
+                        variant={"h4"}
+                        color="secondary"
+                        fontSize="18px"
+                        textAlign="center"
+                        fontWeight={600}
+                        sx={{display: 'block'}}
+                      >
+                        We couldn't find any condidate matching your search criteria
+                      </Typography>
                   </Stack>
                 )}
                 {
