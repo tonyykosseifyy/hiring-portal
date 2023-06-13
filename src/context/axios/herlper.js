@@ -3,7 +3,9 @@ import { STUDENTS_API_ROUTE, SKILLS_API_ROUTE, LANGUAGES_API_ROUTE, JOB_TYPES_AP
 import Cookies from 'js-cookie';
 
 const axios = Axios.create({
-    baseURL: process.env.REACT_APP_API_HOST,
+    // baseURL: process.env.REACTA_PP_API_HOST,
+    // https://oyster-app-mcoqy.ondigitalocean.app/,
+    baseURL: 'https://oyster-app-mcoqy.ondigitalocean.app/api/',
     headers: {
         "Content-Type": "application/json",
     },
