@@ -58,7 +58,7 @@ const Navbar = () => {
                 backgroundColor: 'transparent',
             }}>
                 <div className='toolbar-elements'>
-                    <a href="https://sefactory.io/">
+                    <a href="https://hiring-portal-blue.vercel.app/">
                         <img
                             className={"logo"}
                             src={require("../../assets/core/nawaya-full.png")}
