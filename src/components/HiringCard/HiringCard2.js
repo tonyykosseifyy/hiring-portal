@@ -211,7 +211,7 @@ function HiringCard2({ favorite_users, currentUser, id, languages, description, 
       <Stack mt={2} direction='row' spacing={1}>
         <Swiper
           onSwiper={setSwiperRef}
-          slidesPerView={isMedium ? isSmall  ? 2 : 5 : 3}
+          slidesPerView={isMedium ? isSmall  ? 2 : 4 : 2}
           spaceBetween={2}
           navigation={true}
           virtual
