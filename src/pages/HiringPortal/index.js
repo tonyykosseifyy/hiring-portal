@@ -164,7 +164,7 @@ const HiringPortal = () => {
       try {
         const response = await getStudents({
           languages,
-          jobTypes,
+          job_types: jobTypes,
           majors,
           skills,
           favorite: favoritesOnly,
