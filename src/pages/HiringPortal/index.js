@@ -112,6 +112,15 @@ const HiringPortal = () => {
   const isSmall = useMediaQuery(theme.breakpoints.down("md"));
   const isSM = useMediaQuery(theme.breakpoints.down("sm"));
 
+
+  useEffect(() => {
+    const buttons = document.querySelectorAll('.MuiPickersYear-yearButton');
+    buttons.forEach((button) => {
+      const buttonText = button.textContent;
+      button.textContent = buttonText.slice(2); // Remove first and second characters
+    });
+  }, []);
+
   useEffect(() => {
     setIsLoading(true);
     Promise.all([
@@ -150,7 +159,7 @@ const HiringPortal = () => {
       setIsLoading(true);
       let cyclesFilter = {};
       if (cycleDate && cycles) {
-        cyclesFilter.cycleDate = cycleDate?.["$y"];
+        cyclesFilter.cycleDate = cycleDate?.["$y"]?.toString()?.slice(2); 
       }
       try {
         const response = await getStudents({
@@ -179,8 +188,7 @@ const HiringPortal = () => {
     setCycleDate(date);
   }, [ cycleDate ]);
 
-	console.log("students",students);
-	console.log("isloading", isLoading);
+	console.log(cycleDate?.["$y"]?.toString()?.slice(2));
   return (
     <div className={"hiring-portal-wrapper"}>
 			<Snackbar anchorOrigin={{ vertical: 'top', horizontal: 'center' }} open={openSnackar} autoHideDuration={8000} onClose={() => setOpenSnackbar(false)}>
@@ -380,9 +388,9 @@ const HiringPortal = () => {
                                   my={1}
                                   mr={2}
                                   variant={"h5"}
-                                  fontSize={"17px"}
+                                  fontSize={"18px"}
                                 >
-                                  {cycleDate?.["$y"]}
+                                  {cycleDate?.["$y"]?.toString()?.slice(2)}
                                 </Typography>
                               </div>
                             )}
@@ -394,12 +402,12 @@ const HiringPortal = () => {
                             >
                               <LocalizationProvider dateAdapter={AdapterDayjs}>
                                 <DemoContainer components={["YearCalendar"]}>
-                                  <DemoItem label="Cycle Year">
+                                  <DemoItem label="Cycle">
                                     <YearCalendar
-                                      minDate={dayjs("1980-01-01")}
-                                      maxDate={dayjs()}
+                                      minDate={dayjs("1900-01-01")}
+                                      maxDate={dayjs("1999-01-01")}
                                       yearsPerRow={3}
-                                      defaultValue={dayjs()}
+                                      defaultValue={dayjs("1990-01-01")}
                                       value={cycleDate}
                                       onChange={(newValue) => {
                                         handleDateChange(newValue);

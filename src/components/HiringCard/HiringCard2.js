@@ -100,7 +100,8 @@ const useStyles = makeStyles({
     marginTop: '15px'
   },
 });
-  
+
+const goTo = (link) => window.open(link, '_blank');
 
 function HiringCard2({ favorite_users, currentUser, id, languages, description, gender, full_name, job_types, majors, skills,Available, linkedin, cv, interview }) {
   const classes = useStyles();
@@ -224,14 +225,14 @@ function HiringCard2({ favorite_users, currentUser, id, languages, description, 
       </Stack>
       
       <Stack mt={4} direction='row' alignItems='center' justifyContent='center'>
-        <Button sx={{fontSize:'10px'}} startIcon={<FaPeopleArrows color='#643A7A' />} variant='outlined' fullWidth>Book interview</Button>
+        <Button onClick={() => goTo(interview)} sx={{fontSize:'10px'}} startIcon={<FaPeopleArrows color='#643A7A' />} variant='outlined' fullWidth>Book interview</Button>
       </Stack>
 
       <Stack mt={2} direction={isSmall ? 'column': 'row'} alignItems='center' justifyContent='space-between'>
-        <Button fullWidth sx={{fontSize:'10px'}} startIcon={<BsLinkedin color='white' />}  variant='contained' color='primary'> 
+        <Button onClick={() => goTo(linkedin)} fullWidth sx={{fontSize:'10px'}} startIcon={<BsLinkedin color='white' />}  variant='contained' color='primary'> 
           View LinkedIn 
         </Button>
-        <Button fullWidth sx={{ fontSize:'10px', marginLeft: isSmall ? '0':'10px', marginTop: isSmall ? '10px': '0' }} startIcon={<HiDocument color='white' />} variant='contained' >View Resume</Button>
+        <Button onClick={() => goTo(cv)} fullWidth sx={{ fontSize:'10px', marginLeft: isSmall ? '0':'10px', marginTop: isSmall ? '10px': '0' }} startIcon={<HiDocument color='white' />} variant='contained' >View Resume</Button>
       </Stack>
       
     </div>
