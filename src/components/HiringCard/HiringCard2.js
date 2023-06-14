@@ -103,7 +103,7 @@ const useStyles = makeStyles({
 
 const goTo = (link) => window.open(link, '_blank');
 
-function HiringCard2({ favorite_users, currentUser, id, languages, description, gender, full_name, job_types, majors, skills,Available, linkedin, cv, interview }) {
+function HiringCard2({ favorite_users, currentUser, id, languages, description, gender, full_name, job_types, majors, skills,Available, linkedIn, pdf, calendly }) {
   const classes = useStyles();
   const [ isFavorite, setIsFavorite ] = useState(false);
   const [swiperRef, setSwiperRef] = useState(null);
@@ -124,6 +124,7 @@ function HiringCard2({ favorite_users, currentUser, id, languages, description, 
     setIsFavorite(includesFavorite(favorite_users, currentUser));
   },[favorite_users, currentUser])
   
+  console.log(calendly, pdf, linkedIn);
   return (
     <div className={`hiring-container card ${Available ? '' : 'hiring-container-blurred'}`}>
       {/* <div class="multi-button">
@@ -189,7 +190,7 @@ function HiringCard2({ favorite_users, currentUser, id, languages, description, 
         sx={{ transform: 'scale(0.85)'}}
       />
 
-      <Typography sx={{ height: '50px' }} mt={4} variant="body2">
+      <Typography sx={{ height: '70px' }} fontSize={isMedium ? '13px': '14px'} mt={3} variant="body2">
         {description}
       </Typography>
 
@@ -225,14 +226,14 @@ function HiringCard2({ favorite_users, currentUser, id, languages, description, 
       </Stack>
       
       <Stack mt={4} direction='row' alignItems='center' justifyContent='center'>
-        <Button onClick={() => goTo(interview)} sx={{fontSize:'10px'}} startIcon={<FaPeopleArrows color='#643A7A' />} variant='outlined' fullWidth>Book interview</Button>
+        <Button onClick={() => goTo(calendly)} sx={{fontSize:'10px'}} startIcon={<FaPeopleArrows color='#643A7A' />} variant='outlined' fullWidth>Book interview</Button>
       </Stack>
 
       <Stack mt={2} direction={isSmall ? 'column': 'row'} alignItems='center' justifyContent='space-between'>
-        <Button onClick={() => goTo(linkedin)} fullWidth sx={{fontSize:'10px'}} startIcon={<BsLinkedin color='white' />}  variant='contained' color='primary'> 
-          View LinkedIn 
+        <Button onClick={() => goTo(linkedIn)} fullWidth sx={{fontSize:'10px'}} startIcon={<BsLinkedin color='white' />}  variant='contained' color='primary'> 
+          View LinkedIn
         </Button>
-        <Button onClick={() => goTo(cv)} fullWidth sx={{ fontSize:'10px', marginLeft: isSmall ? '0':'10px', marginTop: isSmall ? '10px': '0' }} startIcon={<HiDocument color='white' />} variant='contained' >View Resume</Button>
+        <Button onClick={() => goTo(pdf)} fullWidth sx={{ fontSize:'10px', marginLeft: isSmall ? '0':'10px', marginTop: isSmall ? '10px': '0' }} startIcon={<HiDocument color='white' />} variant='contained' >View Resume</Button>
       </Stack>
       
     </div>

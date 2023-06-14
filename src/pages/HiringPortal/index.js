@@ -188,7 +188,7 @@ const HiringPortal = () => {
     setCycleDate(date);
   }, [ cycleDate ]);
 
-	console.log(cycleDate?.["$y"]?.toString()?.slice(2));
+	console.log(students);
   return (
     <div className={"hiring-portal-wrapper"}>
 			<Snackbar anchorOrigin={{ vertical: 'top', horizontal: 'center' }} open={openSnackar} autoHideDuration={8000} onClose={() => setOpenSnackbar(false)}>
