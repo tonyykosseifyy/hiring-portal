@@ -22,6 +22,7 @@ import { CURRENT_USER_KEY } from "../../api/config/keys";
 import { useHistory } from "react-router-dom";
 import { useGodMode } from "../../context/godMode";
 import LogoutIcon from '@mui/icons-material/Logout';
+
 const Navbar = () => {
 
     const isLoggedIn = Cookies.get('se-token');

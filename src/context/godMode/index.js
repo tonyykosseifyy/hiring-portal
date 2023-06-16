@@ -1,6 +1,6 @@
-import React, {useEffect} from 'react';
-import {useAuth0} from "@auth0/auth0-react";
-import {hooks} from "../../api";
+import React, { useEffect } from 'react';
+import { useAuth0 } from "@auth0/auth0-react";
+import { hooks } from "../../api";
 
 
 const GodModeContext = React.createContext(null);

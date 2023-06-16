@@ -5,7 +5,8 @@ import Cookies from 'js-cookie';
 const axios = Axios.create({
     // baseURL: process.env.REACTA_PP_API_HOST,
     // https://oyster-app-mcoqy.ondigitalocean.app/,
-    baseURL: 'https://oyster-app-mcoqy.ondigitalocean.app/api/',
+    // baseURL: 'https://oyster-app-mcoqy.ondigitalocean.app/api/',
+    baseURL: process.env.REACT_APP_API_HOST,
     headers: {
         "Content-Type": "application/json",
     },
@@ -14,12 +15,12 @@ const axios = Axios.create({
 axios.interceptors.request.use((config) => {
     const token = Cookies.get("se-token")
     if (token) {
-        // config.headers.Authorization = `Bearer ${token}`;
+        config.headers.Authorization = `Bearer ${token}`;
         // eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjg2NjQ5OTY3LCJleHAiOjE2ODkyNDE5Njd9.QDSS4hVTbtz_Eo6ZGJCu-BfRq1aDmKMm9WJFCRE4SBc
         
     }
 
-    config.headers.Authorization = 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjg2NjQ5OTY3LCJleHAiOjE2ODkyNDE5Njd9.QDSS4hVTbtz_Eo6ZGJCu-BfRq1aDmKMm9WJFCRE4SBc';
+    // config.headers.Authorization = 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjg2NjQ5OTY3LCJleHAiOjE2ODkyNDE5Njd9.QDSS4hVTbtz_Eo6ZGJCu-BfRq1aDmKMm9WJFCRE4SBc';
 
     return config;
 });

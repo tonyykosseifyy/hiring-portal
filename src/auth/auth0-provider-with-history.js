@@ -1,6 +1,7 @@
 import React from "react";
 import {matchPath, useHistory} from "react-router-dom";
 import {Auth0Provider} from "@auth0/auth0-react";
+
 const Auth0ProviderWithHistory = ({children}) => {
     const history = useHistory();
     const domain = process.env.REACT_APP_AUTH0_DOMAIN;
