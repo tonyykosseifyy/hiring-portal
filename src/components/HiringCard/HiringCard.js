@@ -23,7 +23,6 @@
 // import FavoriteIcon from '@mui/icons-material/Favorite';
 // import { useAxios } from "../../context/axios";
 // import { MUTATION_KEYS } from "../../api/config/keys";
-// import {useGodMode} from "../../context/godMode";
 
 // const HiringCard = ({ id, attributes: {
 //     name,

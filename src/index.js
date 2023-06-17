@@ -12,7 +12,6 @@ import Auth0ProviderWithHistory from "./auth/auth0-provider-with-history";
 import {CssBaseline} from "@mui/material";
 import AxiosProvider from "./context/axios";
 import {queryClient, QueryClientProvider, ReactQueryDevtools} from "./api";
-import {GodModeProvider} from "./context/godMode";
 
 const Theme = createTheme({
     palette: {
