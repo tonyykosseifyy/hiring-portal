@@ -1,275 +1,215 @@
-// import React, { useState } from 'react';
-// import {
-//     Grid,
-//     Typography, useMediaQuery, useTheme,
-// } from "@mui/material";
-// import './styles.scss';
-// import { SE_GREEN, SE_GREY, SE_MID_GREY } from "../../utils/constants/colors";
-// import { useModal } from "mui-modal-provider";
-// // import HiringDialog from "../HiringDialog";
-// // import PDFDialog from "../PDFDialog";
-// import SEButton from "../SEButton";
-// import { AVAILABLE_FOR_HIRE, HIRED } from "../../utils/constants/hiring-status";
-// // import {
-// //     githubPressed,
-// //     hoveredOverLog,
-// //     interviewBooked,
-// //     projectPressed,
-// //     viewCVLog
-// // } from "../../logger/analyticsTracking";
-// import { useAuth0 } from "@auth0/auth0-react";
-// import { hooks, useMutation } from "../../api";
-// import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
-// import FavoriteIcon from '@mui/icons-material/Favorite';
-// import { useAxios } from "../../context/axios";
-// import { MUTATION_KEYS } from "../../api/config/keys";
+import React, { useEffect } from 'react'
+import { Avatar, Stack, Badge, Typography, IconButton, Chip, Divider, Button, useMediaQuery } from '@mui/material'
+import { styled } from '@mui/material/styles'
+import './styles2.scss';
+import WomanImage from "../../assets/core/woman.png";
+import ManImage from "../../assets/core/man.png";
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import FavoriteIcon from '@mui/icons-material/Favorite';
+import { useState } from 'react';
+import BoltIcon from '@mui/icons-material/Bolt';
+import { makeStyles } from '@mui/styles';
+import SwiperCore, { Virtual, Navigation, Pagination } from 'swiper';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { BsLinkedin } from 'react-icons/bs';
+import { FaPeopleArrows } from 'react-icons/fa';
+import { HiDocument } from 'react-icons/hi';
+import { useTheme } from '@emotion/react';
+import DoNotDisturbAltIcon from '@mui/icons-material/DoNotDisturbAlt';
+import { useCallback } from 'react';
+import { useAxios } from '../../context/axios';
 
-// const HiringCard = ({ id, attributes: {
-//     name,
-//     title,
-//     projectDescription: description,
-//     github,
-//     youtubeId,
-//     coverImage,
-//     projectType,
-//     pdf,
-//     screenshots,
-//     programmingLanguages: languages,
-//     calendly,
-//     projectURL,
-//     hiringStatus
-// } }) => {
-//     const [open, setOpen] = useState(false);
+SwiperCore.use([Virtual, Navigation, Pagination]);
 
-//     const theme = useTheme();
-//     const { preRelease: PRE_RELEASE} = useGodMode();
-//     const { Api } = useAxios();
-//     const { data: user } = hooks.useCurrentUser()
-//     const { data: favorite } = hooks.useFavorites();
-//     const { mutate: deleteFavorite } = useMutation(MUTATION_KEYS.DELETE_FAVORITE);
-//     const { mutate: createFavorite } = useMutation(MUTATION_KEYS.POST_FAVORITE);
+// function that takes an array of majors and returns a string of majors seperated by "-" if the array has more than one element
+const displayContent = (content, type, field) => {
+  if (content?.length === 0) {
+    return `No ${type}`
+  } else if (content?.length === 1) {
+    return content[0]?.[field]
+  } else {
+    let contentString = ""
+    for (let i = 0; i < content?.length; i++) {
+      if (i === content?.length - 1) {
+        contentString += content[i]?.[field]
+      } else {
+        contentString += content[i]?.[field] + " - "
+      }
+    }
+    return contentString
+  }
+} ;
 
-//     console.log(PRE_RELEASE)
-//     const isFavorited = () => favorite.find(({ attributes }) => attributes?.student?.data?.id === id)
+const includesFavorite = ( favorite_users, currentUser ) => {
+  for (let i = 0; i < favorite_users?.length; i++) {
+    if (favorite_users[i]?.id === currentUser?.id) {
+      return true
+    }
+  }
+  return false
+};
 
-//     // const analyticsBasicParams = () => {
-//     //     return { user, graduateProfile: name, languages, projectType, graduateStatus: hiringStatus }
-//     // }
-//     const isSM = useMediaQuery(theme.breakpoints.down('md'));
 
-//     const { showModal } = useModal();
+const StyledBadge = styled(Badge)(({ theme }) => ({
+    '& .MuiBadge-badge': {
+      backgroundColor: '#44b700',
+      color: '#44b700',
+      boxShadow: `0 0 0 2px ${theme.palette.background.paper}`,
+      '& div': {
+        width: 30,
+        height: 30 
+      },
+      '&::after': {
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        width: '100%',
+        height: '100%',
+        borderRadius: '50%',
+        animation: 'ripple 1.2s infinite ease-in-out',
+        border: '1px solid currentColor',
+        content: '""',
+      },
+    },
+    '@keyframes ripple': {
+      '0%': {
+        transform: 'scale(.8)',
+        opacity: 1,
+      },
+      '100%': {
+        transform: 'scale(2.4)',
+        opacity: 0,
+      },
+    },
+}));
 
-//     // const handleClick = (e, skipCheck, pressedOn) => {
-//     //     if (e.target.localName === "path" || e.target.localName === "svg") {
-//     //         const fav = isFavorited()
-//     //         const operation = fav ? deleteFavorite : createFavorite
-//     //         operation({
-//     //             Api,
-//     //             id: fav ? fav.id : id
-//     //         })
 
-//     //     }
-//     //     else {
-//     //         if (!PRE_RELEASE && hiringStatus !== HIRED) {
-//     //             if (skipCheck || (e.target.localName !== "button" && e.target.localName !== "a")) {
-//     //                 projectPressed({ ...analyticsBasicParams(), pressedOn })
-//     //                 const modal = showModal(HiringDialog, {
-//     //                     images: screenshots,
-//     //                     calendly,
-//     //                     youtubeId,
-//     //                     name,
-//     //                     github,
-//     //                     pdf,
-//     //                     projectURL,
-//     //                     languages,
-//     //                     projectType,
-//     //                     hiringStatus,
-//     //                     onCancel: () => {
-//     //                         modal.hide();
-//     //                     },
-//     //                 })
-//     //             }
-//     //         }
-//     //     }
-//     // }
+const useStyles = makeStyles({
+  available: {
+    marginLeft: '-5px',
+    marginTop: '15px'
+  },
+});
 
-//     const projectTypeHandle = () => {
-//         let str = ""
-//         projectType?.forEach((e, index) => {
-//             if (index > 0) {
-//                 str += " & " + e.type
-//             }
-//             else {
-//                 str += e.type
-//             }
-//         })
-//         return str
-//     }
+const goTo = (link) => window.open(link, '_blank');
 
-//     return (
-//         <div className={`hiring-card-main-container flip ${(PRE_RELEASE || hiringStatus === HIRED) && "prerelease"}`}
-//             // onMouseOver={(e) => {
-//             //     setOpen(true)
+function HiringCard2({ favorite_users, currentUser, id, languages, description, gender, full_name, job_types, majors, skills,Available, linkedIn, pdf, calendly }) {
+  const { Api } = useAxios();
 
-//             // }}
-//             // onClick={(e) => handleClick(e, false, "Card")}
-//             // onMouseLeave={() => {
-//             //     setOpen(false)
-//             //     hoveredOverLog({ ...analyticsBasicParams() })
-//             // }}
-//         >
-//             <div className={"hiring-card-favorite"}>
-//                 {
-//                     isFavorited() ?
-//                         <FavoriteIcon color={"primary"} />
-//                         :
-//                         <FavoriteBorderIcon color={"primary"} />
-//                 }
-//             </div>
-            
-//             <div className={"hiring-card-container flip-content"}>
-//                 <div className='flip-front'>
-//                     <div className='image-holder'>
-//                         <img src={coverImage} className={"hiring-card-image-container"} />
-//                     </div>
-                   
-//                     <div className={"hiring-card-footer"}>
-                    
-//                         {/*<Avatar/>*/}
-//                         <div className={"hiring-card-name"}>
-//                             <Typography variant={"h6"} fontWeight={"bold"}>
-//                                 {name}
-//                             </Typography>
-//                             <Typography variant={"body1"} fontWeight={"bold"} style={{ color: hiringStatus ? SE_GREEN : SE_MID_GREY }}>
-//                                 {hiringStatus ? AVAILABLE_FOR_HIRE : HIRED}
-//                             </Typography>
-//                         </div>
-//                     </div>
-//                 </div>
-//                 <div className='flip-back'>
-//                     <div className={`hiring-card-information-main-container`}>
-//                     <div className={"hiring-card-information-container"}>
-//                     <div style={{
-//                         padding: '0',
-//                         display: 'flex',
-//                         flexDirection: 'column',
-//                         flexGrow: '1',
-//                         maxHeight: PRE_RELEASE || !hiringStatus ? 'calc(100% - 40px)' : isSM ? 'calc(100% - 143px)' : 'calc(100% - 96px)'
-//                     }}>
-//                         <Typography variant={"h6"} fontWeight={"bolder"} sx={{ color: SE_MID_GREY, fontSize: '18px' }}>
-//                             {projectTypeHandle()}
-//                         </Typography>
-//                         <Typography variant={"h5"} fontWeight={"bolder"} sx={{ fontSize: '26px' }}>
-//                             {title}
-//                         </Typography>
-//                         {/*<div className={"small-divider"}/>*/}
-//                         <div className={`hiring-card-project-description ${PRE_RELEASE && " prerelease"}`}>
-//                             <Typography variant={"body1"} >
-//                                 {description[0]?.line}
-//                             </Typography>
-//                             <Typography variant={"body1"} >
-//                                 {description[1]?.line}
-//                             </Typography>
-//                         </div>
+  const classes = useStyles();
+  const [ isFavorite, setIsFavorite ] = useState(false);
+  const [ _swiperRef, setSwiperRef] = useState(null);
+  const theme = useTheme();
+  const isMedium = useMediaQuery(theme.breakpoints.down('md')) ;
+  const isSmall = useMediaQuery(theme.breakpoints.down('sm')) ;
+  
+  const toggleIsFavorite = useCallback(() => {
+    if (isFavorite) {
+      Api.deleteFavorite(id);
+    } else {
+      Api.createFavorite(id);
+    }
+    setIsFavorite((prev) => !prev);
+  },[isFavorite, id])
 
-//                     </div>
-//                     {
-//                         hiringStatus &&
-//                         (
-//                             <>
-//                                 {
-//                                     PRE_RELEASE ?
+  useEffect(() => {
+    setIsFavorite(includesFavorite(favorite_users, currentUser));
+  },[favorite_users, currentUser])
+  
+  return (
+    <div className={`hiring-container card ${Available ? '' : 'hiring-container-blurred'}`}>
+      <Stack direction='row' alignItems='center' justifyContent='space-between'>
+        <Stack direction='row' alignItems='center'>
+          {Available ? <StyledBadge
+              overlap="circular"
+              anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+              variant="dot"
+            >
+              <Avatar sx={{width: 50, height: 50}} alt={full_name} src={gender === 'Male' ? ManImage:WomanImage} />
+            </StyledBadge> 
+            :   
+            <Avatar sx={{width: 50, height: 50}} alt={full_name} src={gender === 'Male' ? ManImage:WomanImage} />
 
-//                                         <Grid container spacing={1}>
-//                                             <Grid item xs={12}>
-//                                                 <SEButton
-//                                                     variant={"contained"}
-//                                                     fullWidth
-//                                                     color={"primary"}
-//                                                     href={pdf}
-//                                                     target="_blank"
+          }
 
-//                                                     disableElevation
-//                                                     // onClick={() => {
-//                                                     //     viewCVLog({ ...analyticsBasicParams() })
-//                                                     // }
-//                                                     // }
+            <Stack ml={2} direction='column'>
+              <Typography sx={{lineHeight:1.3}} variant='h6' color='primary' >
+                  {full_name}
+              </Typography>
+              <Typography sx={{lineHeight:1.3}} variant='caption' >
+                {displayContent(job_types, 'Job Types', 'job_type')}
+              </Typography>
+              <Typography sx={{lineHeight:1.3}} variant='caption' color='secondary'>
+                {displayContent(majors, 'Majors', 'major')}
+              </Typography>
+            </Stack>
 
-//                                                 >
-//                                                     View CV
-//                                                 </SEButton>
-//                                             </Grid>
-//                                         </Grid>
-//                                         :
+        </Stack>
+        <IconButton onClick={() => toggleIsFavorite()} color='primary' size='small'>
+          { isFavorite ? <FavoriteIcon color='primary' fontSize='small' /> : <FavoriteBorderIcon color='primary' fontSize='small' /> }
+        </IconButton>
+      </Stack>
 
-//                                         <Grid container spacing={1}>
-//                                             <Grid item xs={12} sm={12} md={12} lg={12}>
-//                                                 <SEButton
-//                                                     variant={"contained"}
-//                                                     color={"primary"}
-//                                                     disableElevation
-//                                                     fullWidth
+      <Chip
+        icon={Available ? <BoltIcon  fontSize='small' />: <DoNotDisturbAltIcon fontSize='small' />}
+        label={Available ? "Available for hire":"Not available"}
+        variant="outlined"
+        color='primary'
+        size='small'
+        className={classes.available}
+        sx={{ transform: 'scale(0.85)'}}
+      />
 
-//                                                     sx={{
-//                                                         height: '40px'
-//                                                     }}
-//                                                     // onClick={(e) => handleClick(e, true, "About Me Button")}
-//                                                 >
-//                                                     About Me
-//                                                 </SEButton>
-//                                             </Grid>
-//                                             <Grid item xs={12} sm={12} md={6} lg={6}>
-//                                                 <SEButton
-//                                                     variant={"contained"}
-//                                                     color={"secondary"}
-//                                                     disableElevation
-//                                                     sx={{
-//                                                         height: '40px',
-//                                                         backgroundColor: SE_GREY,
-//                                                         color: 'white'
-//                                                     }}
-//                                                     // onClick={() => githubPressed({ ...analyticsBasicParams() })}
-//                                                     fullWidth
-//                                                     href={github}
-//                                                     target="_blank"
+      <Typography sx={{ height: '70px' }} fontSize={isMedium ? '13px': '14px'} mt={3} variant="body2">
+        {description}
+      </Typography>
 
-//                                                 >
-//                                                     Project Demo
-//                                                 </SEButton>
-//                                             </Grid>
-//                                             <Grid item xs={12} sm={12} md={6} lg={6}>
-//                                                 <SEButton
-//                                                     variant={"contained"}
-//                                                     color={"secondary"}
-//                                                     disableElevation
-//                                                     fullWidth
-//                                                     href={calendly}
-//                                                     // onClick={() => interviewBooked({ ...analyticsBasicParams() })}
-//                                                     target="_blank"
-//                                                     sx={{
-//                                                         height: '40px',
-//                                                         textOverflow: 'ellipsis',
-//                                                         overflow: 'hidden',
-//                                                         whiteSpace: 'nowrap',
-//                                                     }}
-//                                                 >
-//                                                     Book Interview
-//                                                 </SEButton>
-//                                             </Grid>
-//                                         </Grid>
-//                                 }
-//                             </>
-//                         )
-//                     }
-//                     </div>
-//                     </div>
-//                 </div>
-            
-//             </div>
-                
-            
-//         </div>
-//     );
-// };
+      <Typography mt={2} color='primary' sx={{ fontWeight:'bold' }}>
+        Languages
+      </Typography>
+			<Divider />
+      <Stack mt={2} direction='row' spacing={1}>
+        { languages?.map((language, index) => (
+          <Chip key={language?.language} label={language?.language} size='small' />
+        ))}
 
-// export default HiringCard;
+      </Stack>
+
+      <Typography mt={3} color='primary' sx={{ fontWeight:'bold' }}>
+        Skills
+      </Typography>
+			<Divider />
+      <Stack mt={2} direction='row' spacing={1}>
+        <Swiper
+          onSwiper={setSwiperRef}
+          slidesPerView={isMedium ? isSmall  ? 2 : 4 : 2}
+          spaceBetween={2}
+          navigation={true}
+          virtual
+        >
+          {skills?.map((skill, index) => (
+            <SwiperSlide className='hiring-slide' key={skill?.skill} virtualIndex={index}>
+              <Chip label={skill?.skill} variant='filled' size='small' />
+            </SwiperSlide>
+          ))}
+        </Swiper>
+      </Stack>
+      
+      <Stack mt={4} direction='row' alignItems='center' justifyContent='center'>
+        <Button onClick={() => goTo(calendly)} sx={{fontSize:'10px'}} startIcon={<FaPeopleArrows color='#643A7A' />} variant='outlined' fullWidth>Book interview</Button>
+      </Stack>
+
+      <Stack mt={2} direction={isSmall ? 'column': 'row'} alignItems='center' justifyContent='space-between'>
+        <Button onClick={() => goTo(linkedIn)} fullWidth sx={{fontSize:'10px'}} startIcon={<BsLinkedin color='white' />}  variant='contained' color='primary'> 
+          View LinkedIn
+        </Button>
+        <Button onClick={() => goTo(pdf)} fullWidth sx={{ fontSize:'10px', marginLeft: isSmall ? '0':'10px', marginTop: isSmall ? '10px': '0' }} startIcon={<HiDocument color='white' />} variant='contained' >View Resume</Button>
+      </Stack>
+      
+    </div>
+  )
+}
+
+  
+
+export default HiringCard2; 

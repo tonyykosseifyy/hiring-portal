@@ -56,7 +56,7 @@ const Navbar = () => {
                     )}
                 </div>
             </Toolbar>
-            <div className='header-center '>
+            <div className='header-center'>
                 <h1>Unlock Your Talent Potential</h1>
                 <p>Discover Your Perfect Match through our Hiring Portal</p>
             </div>

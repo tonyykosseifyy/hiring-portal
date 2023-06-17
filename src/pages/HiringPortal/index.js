@@ -35,7 +35,7 @@ import SEButton from "../../components/SEButton";
 import { SE_GREY } from "../../utils/constants/colors";
 // import { portalAccessed, searchLog } from "../../logger/analyticsTracking";
 import { useAuth0 } from "@auth0/auth0-react";
-import HiringCard2 from "../../components/HiringCard/HiringCard2";
+import HiringCard2 from "../../components/HiringCard/HiringCard";
 import SwiperCore, { Virtual, Navigation, Pagination, Autoplay } from "swiper";
 import { Swiper, SwiperSlide } from "swiper/react";
 // import {
