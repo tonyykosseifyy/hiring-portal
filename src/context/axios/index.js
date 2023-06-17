@@ -4,30 +4,24 @@ import Axios from 'axios'
 import Cookies from 'js-cookie';
 import {AUTHENTICATION_API_ROUTE, FAVORITES_API_ROUTE, STUDENTS_API_ROUTE, USER_API_ROUTE, JOB_TYPES_API_ROUTE, MAJORS_API_ROUTE, SKILLS_API_ROUTE, LANGUAGES_API_ROUTE} from "./api-routes";
 import { useAuth0 } from "@auth0/auth0-react";
-import { useHistory } from 'react-router-dom';
 
 const AxiosContext = React.createContext();
 
 export default function AxiosProvider({ children }) {
-    const history = useHistory();
-    const { getAccessTokenSilently, isAuthenticated, logout, isLoading, user } = useAuth0();
+    const { getAccessTokenSilently, logout } = useAuth0();
     const [token, setToken] = useState(Cookies.get("se-token"));
-    console.log(isAuthenticated, isLoading, user);
     
     useEffect(() => {
         const getToken = async () => {
             try {
               const newToken = await getAccessTokenSilently();
-              console.log('newToken', newToken);
               setToken(newToken);
             } catch (error) {
-              console.error(error);
-              // Handle token retrieval error, e.g., logout the user
               logout();
             }
         };
         getToken();
-    }, [history, window.location.pathname]);
+    }, []);
     
     const axios = useMemo(() => {
         const axios = Axios.create({
@@ -38,21 +32,16 @@ export default function AxiosProvider({ children }) {
         });
 
         axios.interceptors.request.use((config) => {
-            // const token = Cookies.get("se-token")
             if (token) {
                 config.headers.Authorization = `Bearer ${token}`;
             }
-
             return config;
         });
 
         return axios;
     }, [token]);
-    // All modified by meee :D
-    // Students
-    // filter = { languages: ["Frensh"] } ...
+
     const displayError = (err) => {
-        console.log("displayError", err);
         return {
             data: {
                 data: [],
@@ -70,10 +59,6 @@ export default function AxiosProvider({ children }) {
     const getMajors = () => axios.get(MAJORS_API_ROUTE) ;
     const getCurrentUser = () => axios.get('/users/me');
     
-    
-    
-    // const getUser = () => axios.get(USER_API_ROUTE).then(data => data);
-    // Favorites
     
     const createFavorite = (id) => {
         try {
