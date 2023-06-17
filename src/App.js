@@ -6,11 +6,15 @@ import "swiper/swiper.min.css";
 import {ROUTES_WITH_LAYOUT} from "./utils/routes";
 import AuthRoute from "./router/AuthRoute";
 import LoginRedirect from "./pages/LoginRedirect";
+import { useAxios } from './context/axios';
 
 const App = () => {
+  const { setToken } = useAxios();
   return (
       <Switch>
-          <Route exact path="/connect/:providerName" component={LoginRedirect} />
+          <Route exact path="/connect/:providerName">
+            <LoginRedirect setToken={setToken}/>
+          </Route>
           {
               ROUTES_WITH_LAYOUT.map(({layout: Layout, routes, basePath, exact}) =>
               {

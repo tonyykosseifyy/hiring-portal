@@ -38,15 +38,16 @@ import { useAuth0 } from "@auth0/auth0-react";
 import HiringCard2 from "../../components/HiringCard/HiringCard2";
 import SwiperCore, { Virtual, Navigation, Pagination, Autoplay } from "swiper";
 import { Swiper, SwiperSlide } from "swiper/react";
-import {
-  getSkills,
-  getJobTypes,
-  getLanguages,
-  getMajors,
-  getStudents,
-  getInitialStudent,
-  getCurrentUser,
-} from "../../context/axios/herlper";
+// import {
+//   getSkills,
+//   getJobTypes,
+//   getLanguages,
+//   getMajors,
+//   getStudents,
+//   getInitialStudent,
+//   getCurrentUser,
+// } from "../../context/axios/herlper";
+import { useAxios } from "../../context/axios";
 
 import { DemoContainer, DemoItem } from "@mui/x-date-pickers/internals/demo";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
@@ -77,6 +78,8 @@ export const CustomTextField = styled(TextField)({
 });
 
 const HiringPortal = () => {
+  const { axios, Api } = useAxios();
+
   const [filterData, setFilterData] = useState({
     languages: [],
     jobTypes: [],
@@ -124,12 +127,12 @@ const HiringPortal = () => {
   useEffect(() => {
     setIsLoading(true);
     Promise.all([
-      getSkills,
-      getLanguages,
-      getJobTypes,
-      getMajors,
-      getInitialStudent,
-      getCurrentUser,
+      Api.getSkills(),
+      Api.getLanguages(),
+      Api.getJobTypes(),
+      Api.getMajors(),
+      Api.getInitialStudent(),
+      Api.getCurrentUser(),
     ])
       .then((responses) => {
         // Handle the responses
@@ -149,11 +152,12 @@ const HiringPortal = () => {
         });
       })
       .catch((error) => {
-        console.error("Error:", error);
+        console.error("Error By me:", error);
         setOpenSnackbar(true);
       })
       .finally(() => setIsLoading(false));
-  }, []);
+  }, [ axios ]);
+  console.log('current user', currentUser)
   useEffect(() => {
     async function fetchData() {
       setIsLoading(true);
@@ -162,7 +166,7 @@ const HiringPortal = () => {
         cyclesFilter.cycleDate = cycleDate?.["$y"]?.toString()?.slice(2); 
       }
       try {
-        const response = await getStudents({
+        const response = await Api.getStudents({
           languages,
           job_types: jobTypes,
           majors,

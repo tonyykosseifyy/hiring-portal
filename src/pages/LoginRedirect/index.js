@@ -9,9 +9,9 @@ import {useAuth0} from "@auth0/auth0-react";
 
 const backendUrl = process.env.REACT_APP_API_HOST;
 
-const LoginRedirect = (props) => {
+const LoginRedirect = ({ setToken }) => {
     const [text, setText] = useState('');
-    const { logout } = useAuth0()
+    const { logout } = useAuth0();
     const location = useLocation();
     const params = useParams();
     const history = useHistory();
@@ -30,8 +30,9 @@ const LoginRedirect = (props) => {
             .then(res => {
                 // Successfully logged with Strapi
                 // Now saving the jwt to use it for future authenticated requests to Strapi
-                Cookies.set('se-token',  res.jwt)
-                queryClient.setQueryData(CURRENT_USER_KEY,res.user)
+                Cookies.set('se-token',  res.jwt);
+                setToken(res.jwt);
+                // queryClient.setQueryData(CURRENT_USER_KEY,res.user)
                 setTimeout(() => history.push('/'), 3000); // Redirect to homepage after 3 sec
             })
             .catch(err => {

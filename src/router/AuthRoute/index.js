@@ -32,7 +32,6 @@ const AuthRoute = ({component: Component, ...args}) => {
 
     return (<Route
         render={(props) => {
-
                 if (Boolean(isLoggedIn)) {
                     if (dbUser) {
                         // if (user.email_verified) {

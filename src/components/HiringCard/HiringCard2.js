@@ -21,9 +21,9 @@ import Tooltip, { tooltipClasses } from '@mui/material/Tooltip';
 import { useTheme } from '@emotion/react';
 import { LanguageSharp } from '@mui/icons-material';
 import DoNotDisturbAltIcon from '@mui/icons-material/DoNotDisturbAlt';
-import { createFavorite, deleteFavorite } from '../../context/axios/herlper';
+// import { createFavorite, deleteFavorite } from '../../context/axios/herlper';
 import { useCallback } from 'react';
-
+import { useAxios } from '../../context/axios';
 // import 'swiper/css';
 // import 'swiper/css/pagination';
 // import 'swiper/css/navigation';
@@ -56,6 +56,7 @@ const includesFavorite = ( favorite_users, currentUser ) => {
       return true
     }
   }
+  console.log(currentUser);
   return false
 };
 
@@ -104,6 +105,8 @@ const useStyles = makeStyles({
 const goTo = (link) => window.open(link, '_blank');
 
 function HiringCard2({ favorite_users, currentUser, id, languages, description, gender, full_name, job_types, majors, skills,Available, linkedIn, pdf, calendly }) {
+  const { axios, Api } = useAxios();
+
   const classes = useStyles();
   const [ isFavorite, setIsFavorite ] = useState(false);
   const [swiperRef, setSwiperRef] = useState(null);
@@ -113,9 +116,9 @@ function HiringCard2({ favorite_users, currentUser, id, languages, description, 
   
   const toggleIsFavorite = useCallback(() => {
     if (isFavorite) {
-      deleteFavorite(id);
+      Api.deleteFavorite(id);
     } else {
-      createFavorite(id);
+      Api.createFavorite(id);
     }
     setIsFavorite((prev) => !prev);
   },[isFavorite, id])
@@ -124,7 +127,6 @@ function HiringCard2({ favorite_users, currentUser, id, languages, description, 
     setIsFavorite(includesFavorite(favorite_users, currentUser));
   },[favorite_users, currentUser])
   
-  console.log(calendly, pdf, linkedIn);
   return (
     <div className={`hiring-container card ${Available ? '' : 'hiring-container-blurred'}`}>
       {/* <div class="multi-button">

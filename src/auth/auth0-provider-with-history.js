@@ -1,6 +1,6 @@
 import React from "react";
-import {matchPath, useHistory} from "react-router-dom";
-import {Auth0Provider} from "@auth0/auth0-react";
+import { matchPath, useHistory } from "react-router-dom";
+import { Auth0Provider } from "@auth0/auth0-react";
 
 const Auth0ProviderWithHistory = ({children}) => {
     const history = useHistory();
@@ -16,7 +16,7 @@ const Auth0ProviderWithHistory = ({children}) => {
         <Auth0Provider
             domain={domain}
             clientId={clientId}
-            redirectUri={window.location.origin}
+            redirectUri={'http://localhost:3000'}
             onRedirectCallback={onRedirectCallback}
             // audience={audience}
             useRefreshTokens={true}

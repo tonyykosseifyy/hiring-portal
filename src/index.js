@@ -35,21 +35,19 @@ ReactDOM.render(
     <Router>
         <Auth0ProviderWithHistory>
             <AxiosProvider>
-                    <QueryClientProvider client={queryClient}>
-                        <GodModeProvider>
-                        {
-                            process.env.REACT_APP_ENV!=="production"
-                            &&
-                            <ReactQueryDevtools initialIsOpen/>
+                <QueryClientProvider client={queryClient}>
+                    {
+                        process.env.REACT_APP_ENV!=="production"
+                        &&
+                        <ReactQueryDevtools initialIsOpen/>
 
-                        }
-                        <ThemeProvider theme={Theme}>
-                            <CssBaseline/>
-                            <ModalProvider>
-                                <App />
-                            </ModalProvider>
-                        </ThemeProvider>
-            </GodModeProvider>
+                    }
+                    <ThemeProvider theme={Theme}>
+                        <CssBaseline/>
+                        <ModalProvider>
+                            <App />
+                        </ModalProvider>
+                    </ThemeProvider>
 
             </QueryClientProvider>
 

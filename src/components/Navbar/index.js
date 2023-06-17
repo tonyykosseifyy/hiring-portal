@@ -27,7 +27,7 @@ const Navbar = () => {
 
     const isLoggedIn = Cookies.get('se-token');
     const { logout } = useAuth0();
-    const { isGod, handlePreRelease, preRelease } = useGodMode()
+    // const { isGod, handlePreRelease, preRelease } = useGodMode()
     const [open, setOpen] = useState(false);
     const { push } = useHistory()
     const theme = useTheme();
