@@ -2,7 +2,7 @@ import React from 'react';
 import { Button } from "@mui/material";
 import './styles.scss';
 
-const SEButton = ({ children, ...props }) => {
+const CustomButton = ({ children, ...props }) => {
     return (
         <Button sx={{
             color: "#363738"
@@ -14,4 +14,4 @@ const SEButton = ({ children, ...props }) => {
     );
 };
 
-export default SEButton;
+export default CustomButton;

@@ -1,5 +1,5 @@
 import React from "react";
-import { matchPath, useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import { Auth0Provider } from "@auth0/auth0-react";
 
 const Auth0ProviderWithHistory = ({children}) => {

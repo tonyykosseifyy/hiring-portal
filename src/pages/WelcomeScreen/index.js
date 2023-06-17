@@ -1,7 +1,7 @@
 import React, {useEffect} from 'react';
 import './styles.scss';
 import {Typography} from "@mui/material";
-import SEButton from "../../components/SEButton";
+import SEButton from "../../components/CustomButton";
 import {useAuth0} from "@auth0/auth0-react";
 import {useHistory} from "react-router-dom";
 import {HIRING_PORTAL_ROUTE} from "../../utils/routes";

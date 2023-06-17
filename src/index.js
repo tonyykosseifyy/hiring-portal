@@ -6,20 +6,18 @@ import {BrowserRouter as Router} from "react-router-dom";
 import './index.scss';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import {SE_LIGHT_GREY, SE_GREEN} from "./utils/constants/colors";
+import { NAWAYA_LIGHT_GREY, NAWAYA_PURPLE } from "./utils/constants/colors";
 import Auth0ProviderWithHistory from "./auth/auth0-provider-with-history";
-// import mixpanel from 'mixpanel-browser';
 import {CssBaseline} from "@mui/material";
 import AxiosProvider from "./context/axios";
-import {queryClient, QueryClientProvider, ReactQueryDevtools} from "./api";
 
 const Theme = createTheme({
     palette: {
         primary: {
-            main: SE_GREEN,
+            main: NAWAYA_PURPLE,
         },
         secondary: {
-            main: SE_LIGHT_GREY
+            main: NAWAYA_LIGHT_GREY
         }
     },
     typography: {
@@ -28,28 +26,17 @@ const Theme = createTheme({
         fontWeight: 'normal',
     },});
 
-// mixpanel.init(process.env.REACT_APP_MIXPANEL_TOKEN,  {debug: process.env.REACT_APP_ENV === "development"})
 
 ReactDOM.render(
     <Router>
         <Auth0ProviderWithHistory>
             <AxiosProvider>
-                <QueryClientProvider client={queryClient}>
-                    {
-                        process.env.REACT_APP_ENV!=="production"
-                        &&
-                        <ReactQueryDevtools initialIsOpen/>
-
-                    }
-                    <ThemeProvider theme={Theme}>
-                        <CssBaseline/>
-                        <ModalProvider>
-                            <App />
-                        </ModalProvider>
-                    </ThemeProvider>
-
-            </QueryClientProvider>
-
+                <ThemeProvider theme={Theme}>
+                    <CssBaseline/>
+                    <ModalProvider>
+                        <App />
+                    </ModalProvider>
+                </ThemeProvider>
             </AxiosProvider>
 
         </Auth0ProviderWithHistory>

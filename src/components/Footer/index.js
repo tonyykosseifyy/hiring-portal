@@ -1,11 +1,6 @@
 import React from 'react';
 import './styles.scss';
-import { Grid, Typography } from "@mui/material";
-import { SE_GREEN } from "../../utils/constants/colors";
-// import LinkedInIcon from '@mui/icons-material/LinkedIn';
-// import FacebookIcon from '@mui/icons-material/Facebook';
-// import InstagramIcon from '@mui/icons-material/Instagram';
-// import TwitterIcon from '@mui/icons-material/Twitter';
+import { Typography } from "@mui/material";
 import NawayaLogo from "../../assets/core/image1.png";
 
 

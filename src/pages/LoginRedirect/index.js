@@ -2,8 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { useHistory, useLocation, useParams } from "react-router-dom";
 import Cookies from "js-cookie";
 import Loader from "../../components/Loader";
-import {queryClient} from "../../api";
-import {CURRENT_USER_KEY} from "../../api/config/keys";
 import {Typography} from "@mui/material";
 import {useAuth0} from "@auth0/auth0-react";
 

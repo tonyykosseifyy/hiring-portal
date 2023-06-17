@@ -11,42 +11,18 @@ import {
   useMediaQuery,
   Button,
 } from "@mui/material";
-// import HiringCard from "../../components/HiringCard/HiringCard";
-// import { LANGUAGES } from "../../utils/constants/languages";
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert from '@mui/material/Alert';
 import SearchIcon from "@mui/icons-material/Search";
 import dayjs from "dayjs";
-import { arraySubset } from "../../utils/helpers/arraySubset";
 import "./styles.scss";
-import {
-  AVAILABLE_FOR_HIRE,
-  HIRED,
-  HIRING_STATUS,
-} from "../../utils/constants/hiring-status";
-import Partners from "../../assets/partners/SEF_sponsors apr 2023.png";
-import { ReactComponent as ArrowDown } from "../../assets/common/Vector.svg";
-import { Popover } from "react-tiny-popover";
 import useResizeObserver from "beautiful-react-hooks/useResizeObserver";
-import { hooks } from "../../api";
 import Loader from "../../components/Loader";
 import SentimentDissatisfiedIcon from "@mui/icons-material/SentimentDissatisfied";
-import SEButton from "../../components/SEButton";
-import { SE_GREY } from "../../utils/constants/colors";
-// import { portalAccessed, searchLog } from "../../logger/analyticsTracking";
-import { useAuth0 } from "@auth0/auth0-react";
 import HiringCard2 from "../../components/HiringCard/HiringCard";
 import SwiperCore, { Virtual, Navigation, Pagination, Autoplay } from "swiper";
 import { Swiper, SwiperSlide } from "swiper/react";
-// import {
-//   getSkills,
-//   getJobTypes,
-//   getLanguages,
-//   getMajors,
-//   getStudents,
-//   getInitialStudent,
-//   getCurrentUser,
-// } from "../../context/axios/herlper";
+
 import { useAxios } from "../../context/axios";
 
 import { DemoContainer, DemoItem } from "@mui/x-date-pickers/internals/demo";
@@ -60,8 +36,6 @@ const Alert = React.forwardRef(function Alert(props, ref) {
 });
 
 SwiperCore.use([Virtual, Navigation, Pagination, Autoplay]);
-
-
 
 
 export const CustomTextField = styled(TextField)({
@@ -87,7 +61,6 @@ const HiringPortal = () => {
     skills: [],
   });
 
-  // const { data: user, isLoading: isLoadingUser } = hooks.useCurrentUser();
   const [languages, setLanguages] = useState([]);
   const [jobTypes, setJobsTypes] = useState([]);
   const [majors, setMajors] = useState([]);
@@ -101,9 +74,6 @@ const HiringPortal = () => {
 
 	const [ openSnackar, setOpenSnackbar ] = useState(false);
   
-	// Edited by me
-  // const { data: students, isLoading: isLoadingStudents } = hooks.useStudents()
-  // const { data: favorites, isLoading: isLoadingFavorites } = hooks.useFavorites()
 
   const [isLoading, setIsLoading] = useState(true);
   const [favoritesOnly, setFavoritesOnly] = useState(false);
@@ -152,12 +122,10 @@ const HiringPortal = () => {
         });
       })
       .catch((error) => {
-        console.error("Error By me:", error);
         setOpenSnackbar(true);
       })
       .finally(() => setIsLoading(false));
   }, [ axios ]);
-  console.log('current user', currentUser)
   useEffect(() => {
     async function fetchData() {
       setIsLoading(true);
@@ -192,7 +160,6 @@ const HiringPortal = () => {
     setCycleDate(date);
   }, [ cycleDate ]);
 
-	console.log(students);
   return (
     <div className={"hiring-portal-wrapper"}>
 			<Snackbar anchorOrigin={{ vertical: 'top', horizontal: 'center' }} open={openSnackar} autoHideDuration={8000} onClose={() => setOpenSnackbar(false)}>
@@ -564,9 +531,6 @@ const HiringPortal = () => {
             </Typography>
           </Grid>
           <Grid item xs={12}>
-            {/* <Typography variant={isSmall ? "body1" : "h6"} textAlign={"center"}>
-                            SE Factory partners have been critical to the success, growth, and expansion of our programs.
-                        </Typography> */}
           </Grid>
           <Grid item xs={12}>
             <Divider mb={-2} style={{ height: "2px" }} />
