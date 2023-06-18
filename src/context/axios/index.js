@@ -8,21 +8,9 @@ import { useAuth0 } from "@auth0/auth0-react";
 const AxiosContext = React.createContext();
 
 export default function AxiosProvider({ children }) {
-    const { getAccessTokenSilently, logout } = useAuth0();
+    const { logout } = useAuth0();
     const [token, setToken] = useState(Cookies.get("se-token"));
-    
-    useEffect(() => {
-        const getToken = async () => {
-            try {
-              const newToken = await getAccessTokenSilently();
-              setToken(newToken);
-            } catch (error) {
-              logout();
-            }
-        };
-        getToken();
-    }, []);
-    
+
     const axios = useMemo(() => {
         const axios = Axios.create({
             baseURL: process.env.REACT_APP_API_HOST,

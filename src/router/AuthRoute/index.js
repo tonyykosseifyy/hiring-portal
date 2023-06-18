@@ -8,12 +8,12 @@ const AuthRoute = ({component: Component, ...args}) => {
 
     return (<Route
         render={(props) => {
-                if (Boolean(isLoggedIn)) {
-                    return <Component {...props}/>
-                } else {
-                    window.location.href = (process.env.REACT_APP_API_HOST + 'connect/auth0')
-                    return (<Loader SELogo/>)
-                }
+            if (Boolean(isLoggedIn)) {
+                return <Component {...props}/>
+            } else {
+                window.location.href = (process.env.REACT_APP_API_HOST + 'connect/auth0')
+                return (<Loader SELogo/>)
+            }
         }}
         {...args}
     />)

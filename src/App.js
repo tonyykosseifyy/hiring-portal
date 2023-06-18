@@ -13,7 +13,7 @@ const App = () => {
   return (
       <Switch>
           <Route exact path="/connect/:providerName">
-            <LoginRedirect setToken={setToken}/>
+            <LoginRedirect setToken={setToken} />
           </Route>
           {
               ROUTES_WITH_LAYOUT.map(({layout: Layout, routes, basePath, exact}) =>
