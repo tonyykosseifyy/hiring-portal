@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState, useMemo } from "react";
 import { styled, useTheme } from "@mui/styles";
 import {
   Stack,
@@ -13,6 +13,7 @@ import {
 } from "@mui/material";
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert from '@mui/material/Alert';
+import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 import SearchIcon from "@mui/icons-material/Search";
 import dayjs from "dayjs";
 import "./styles.scss";
@@ -93,6 +94,27 @@ const HiringPortal = () => {
       button.textContent = buttonText.slice(2); // Remove first and second characters
     });
   }, []);
+
+  const clearFilters = useCallback(() => {
+    setLanguages([]);
+    setJobsTypes([]);
+    setMajors([]);
+    setSkills([]);
+    setFavoritesOnly(false);
+    setCycleDate(dayjs());
+    setClosed(true);
+    setCycles(false);
+  }, []);
+  const noFiltersSelected = useMemo(() => {
+    return (
+      languages.length === 0 &&
+      jobTypes.length === 0 &&
+      majors.length === 0 &&
+      skills.length === 0 &&
+      !favoritesOnly &&
+      !cycles
+    );
+  }, [languages, jobTypes, majors, skills, favoritesOnly, cycles]);
 
   useEffect(() => {
     setIsLoading(true);
@@ -327,7 +349,7 @@ const HiringPortal = () => {
                             maxWidth: "200px",
                           }}
                         >
-                          <div
+                          {/* <div
                             className={`cycles-check ${
                               cycles && "cycles-check-open"
                             }`}
@@ -388,7 +410,7 @@ const HiringPortal = () => {
                                 </DemoContainer>
                               </LocalizationProvider>
                             </div>
-                          </div>
+                          </div> */}
                           <div
                             style={{
                               display: "flex",
@@ -415,6 +437,23 @@ const HiringPortal = () => {
                           </div>
                         </div>
                       </div>
+                    </div>
+                    <div
+                      className={`clear-filters ${noFiltersSelected && "clear-filters-closed"}`}
+                    >
+                      <Button
+                        color={"primary"}
+                        // fullWidth
+                        startIcon={<HighlightOffIcon />}
+                        sx={{
+                          height: "40px",
+                          marginLeft: '-7px'
+                        }}
+                        onClick={() => clearFilters()}
+                        variant="text"
+                      >
+                        Clear Filters
+                      </Button>
                     </div>
 
                     <div
@@ -527,7 +566,7 @@ const HiringPortal = () => {
               sx={{ fontWeight: "bold" }}
               textAlign={"center"}
             >
-              Trusted by some of the leading global agencies
+              Trusted by some of the leading companies
             </Typography>
           </Grid>
           <Grid item xs={12}>
@@ -548,42 +587,42 @@ const HiringPortal = () => {
             <SwiperSlide>
               <img
                 className="partners-picture"
-                src="	https://nawaya.org/wp-content/uploads/2021/12/0001-600x369.jpg"
+                // src="	https://nawaya.org/wp-content/uploads/2021/12/0001-600x369.jpg"
                 alt={"partners"}
               />
             </SwiperSlide>
             <SwiperSlide>
               <img
                 className="partners-picture"
-                src="https://nawaya.org/wp-content/uploads/2021/12/logo-f.png"
+                // src="https://nawaya.org/wp-content/uploads/2021/12/logo-f.png"
                 alt={"partners"}
               />
             </SwiperSlide>
             <SwiperSlide>
               <img
                 className="partners-picture"
-                src="https://nawaya.org/wp-content/uploads/2022/01/web-GlobalGiving-Logo-400x400.jpg"
+                // src="https://nawaya.org/wp-content/uploads/2022/01/web-GlobalGiving-Logo-400x400.jpg"
                 alt={"partners"}
               />
             </SwiperSlide>
             <SwiperSlide>
               <img
                 className="partners-picture"
-                src="	https://nawaya.org/wp-content/uploads/2022/02/The-Netherlands.jpg"
+                // src="	https://nawaya.org/wp-content/uploads/2022/02/The-Netherlands.jpg"
                 alt={"partners"}
               />
             </SwiperSlide>
             <SwiperSlide>
               <img
                 className="partners-picture"
-                src="	https://nawaya.org/wp-content/uploads/2022/02/partner-10.jpg"
+                // src="	https://nawaya.org/wp-content/uploads/2022/02/partner-10.jpg"
                 alt={"partners"}
               />
             </SwiperSlide>
             <SwiperSlide>
               <img
                 className="partners-picture"
-                src="	https://nawaya.org/wp-content/uploads/2022/02/eu-300x266-1.png"
+                // src="	https://nawaya.org/wp-content/uploads/2022/02/eu-300x266-1.png"
                 alt={"partners"}
               />
             </SwiperSlide>
@@ -591,42 +630,42 @@ const HiringPortal = () => {
             <SwiperSlide>
               <img
                 className="partners-picture"
-                src="https://nawaya.org/wp-content/uploads/2022/01/web-partner-22-750x465.jpg"
+                // src="https://nawaya.org/wp-content/uploads/2022/01/web-partner-22-750x465.jpg"
                 alt={"partners"}
               />
             </SwiperSlide>
             <SwiperSlide>
               <img
                 className="partners-picture"
-                src="	https://nawaya.org/wp-content/uploads/2022/01/web-GlobalFundforChildren-750x465.jpg"
+                // src="	https://nawaya.org/wp-content/uploads/2022/01/web-GlobalFundforChildren-750x465.jpg"
                 alt={"partners"}
               />
             </SwiperSlide>
             <SwiperSlide>
               <img
                 className="partners-picture"
-                src="https://nawaya.org/wp-content/uploads/2022/01/web-gizlogo-unternehmen-de-sw-300.jpg"
+                // src="https://nawaya.org/wp-content/uploads/2022/01/web-gizlogo-unternehmen-de-sw-300.jpg"
                 alt={"partners"}
               />
             </SwiperSlide>
             <SwiperSlide>
               <img
                 className="partners-picture"
-                src="https://nawaya.org/wp-content/uploads/2022/02/web-al-gurair-750x465.jpg"
+                // src="https://nawaya.org/wp-content/uploads/2022/02/web-al-gurair-750x465.jpg"
                 alt={"partners"}
               />
             </SwiperSlide>
             <SwiperSlide>
               <img
                 className="partners-picture"
-                src="https://nawaya.org/wp-content/uploads/2022/02/alfanar-logo-print.jpg"
+                // src="https://nawaya.org/wp-content/uploads/2022/02/alfanar-logo-print.jpg"
                 alt={"partners"}
               />
             </SwiperSlide>
             <SwiperSlide>
               <img
                 className="partners-picture"
-                src="https://nawaya.org/wp-content/uploads/2022/02/partner-4.jpg"
+                // src="https://nawaya.org/wp-content/uploads/2022/02/partner-4.jpg"
                 alt={"partners"}
               />
             </SwiperSlide>

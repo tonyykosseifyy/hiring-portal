@@ -17,7 +17,7 @@ const Footer = () => {
                         Reach out to Hire
                     </Typography>
                     <Typography variant={"body1"} color='secondary'>
-                        <a href="mailto: hire@sefactory.io" style={{ color: `unset` }}>hire@nawaya.io</a>
+                        <a href="mailto:hire@nawaya.org" style={{ color: `unset` }}>hire@nawaya.org</a>
                     </Typography>
                 </div>
                 
