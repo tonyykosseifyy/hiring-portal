@@ -20,7 +20,7 @@ const Navbar = () => {
 
     return (
     <Box>
-        <AppBar style={{ position: 'relative', height: '500px' }} position="static" className="header">
+        <AppBar style={{ position: 'relative', height: '600px' }} position="static" className="header">
             <div className='xs-overlay' />
             <Toolbar sx={{
                 display: 'flex',
