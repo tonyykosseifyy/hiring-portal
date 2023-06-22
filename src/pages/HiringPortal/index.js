@@ -461,7 +461,6 @@ const HiringPortal = () => {
                         display: "flex",
                         alignItems: "center",
                         justifyContent: "center",
-                        marginTop: "20px",
                       }}
                     >
                       <Button
