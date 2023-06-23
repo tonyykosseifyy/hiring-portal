@@ -453,7 +453,6 @@ const HiringPortal = () => {
                           >
                             <Typography
                               color="primary"
-                              my={1}
                               mr={2}
                               variant={"h5"}
                               fontSize={"15px"}
@@ -479,7 +478,6 @@ const HiringPortal = () => {
                           >
                             <Typography
                               color="primary"
-                              my={1}
                               mr={2}
                               variant={"h5"}
                               fontSize={"15px"}
