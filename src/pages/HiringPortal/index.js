@@ -73,6 +73,7 @@ const HiringPortal = () => {
   const [cycleDate, setCycleDate] = useState(dayjs());
   const [closed, setClosed] = useState(true);
   const [ available, setAvailable ] = useState(false);
+  const [ recruited, setRecruited ] = useState(false);
 
 	const [ openSnackar, setOpenSnackbar ] = useState(false);
   
@@ -106,6 +107,7 @@ const HiringPortal = () => {
     setClosed(true);
     setCycles(false);
     setAvailable(false);
+    setRecruited(false);
   }, []);
   const noFiltersSelected = useMemo(() => {
     return (
@@ -115,9 +117,10 @@ const HiringPortal = () => {
       skills.length === 0 &&
       !favoritesOnly &&
       !cycles &&
-      !available
+      !available && 
+      !recruited
     );
-  }, [languages, jobTypes, majors, skills, favoritesOnly, cycles, available]);
+  }, [languages, jobTypes, majors, skills, favoritesOnly, cycles, available, recruited]);
 
   useEffect(() => {
     setIsLoading(true);
@@ -167,6 +170,7 @@ const HiringPortal = () => {
           favorite: favoritesOnly,
           ...cyclesFilter,
           available,
+          recruited
         });
         setStudents(response?.data);
       } catch (err) {
@@ -429,13 +433,40 @@ const HiringPortal = () => {
                               variant={"h5"}
                               fontSize={"17px"}
                             >
-                              Only Favorites
+                              Favorites
                             </Typography>
                             <Checkbox
                               checked={favoritesOnly}
                               onChange={(event) =>
                                 setFavoritesOnly(event.target.checked)
                               }
+                              inputProps={{ "aria-label": "controlled" }}
+                            />
+                          </div>
+                          <div
+                            style={{
+                              display: "flex",
+                              alignItems: "center",
+                              justifyContent: "space-between",
+                              marginTop: "10px",
+                            }}
+                          >
+                            <Typography
+                              color="primary"
+                              my={1}
+                              mr={2}
+                              variant={"h5"}
+                              fontSize={"15px"}
+                            >
+                              Only Available
+                            </Typography>
+                            <Checkbox
+                              checked={available}
+                              size="small"
+                              onChange={(event) => {
+                                setAvailable(event.target.checked);
+                                setRecruited(false);
+                              }}
                               inputProps={{ "aria-label": "controlled" }}
                             />
                           </div>
@@ -451,16 +482,19 @@ const HiringPortal = () => {
                               my={1}
                               mr={2}
                               variant={"h5"}
-                              fontSize={"17px"}
+                              fontSize={"15px"}
                             >
-                              Only Available
+                              Only Recruited
                             </Typography>
                             <Checkbox
-                              checked={available}
-                              onChange={(event) =>
-                                setAvailable(event.target.checked)
-                              }
+                              checked={recruited}
+                              size="small"
+                              onChange={(event) => {
+                                setRecruited(event.target.checked);
+                                setAvailable(false);
+                              }}
                               inputProps={{ "aria-label": "controlled" }}
+                              sx={{ borderRadius: '50%'}}
                             />
                           </div>
                         </div>
