@@ -72,6 +72,7 @@ const HiringPortal = () => {
   const [currentUser, setCurrentUser] = useState({});
   const [cycleDate, setCycleDate] = useState(dayjs());
   const [closed, setClosed] = useState(true);
+  const [ available, setAvailable ] = useState(false);
 
 	const [ openSnackar, setOpenSnackbar ] = useState(false);
   
@@ -87,13 +88,13 @@ const HiringPortal = () => {
   const isSM = useMediaQuery(theme.breakpoints.down("sm"));
 
 
-  useEffect(() => {
-    const buttons = document.querySelectorAll('.MuiPickersYear-yearButton');
-    buttons.forEach((button) => {
-      const buttonText = button.textContent;
-      button.textContent = buttonText.slice(2); // Remove first and second characters
-    });
-  }, []);
+  // useEffect(() => {
+  //   const buttons = document.querySelectorAll('.MuiPickersYear-yearButton');
+  //   buttons.forEach((button) => {
+  //     const buttonText = button.textContent;
+  //     button.textContent = buttonText.slice(2); // Remove first and second characters
+  //   });
+  // }, []);
 
   const clearFilters = useCallback(() => {
     setLanguages([]);
@@ -104,6 +105,7 @@ const HiringPortal = () => {
     setCycleDate(dayjs());
     setClosed(true);
     setCycles(false);
+    setAvailable(false);
   }, []);
   const noFiltersSelected = useMemo(() => {
     return (
@@ -112,9 +114,10 @@ const HiringPortal = () => {
       majors.length === 0 &&
       skills.length === 0 &&
       !favoritesOnly &&
-      !cycles
+      !cycles &&
+      !available
     );
-  }, [languages, jobTypes, majors, skills, favoritesOnly, cycles]);
+  }, [languages, jobTypes, majors, skills, favoritesOnly, cycles, available]);
 
   useEffect(() => {
     setIsLoading(true);
@@ -163,6 +166,7 @@ const HiringPortal = () => {
           skills,
           favorite: favoritesOnly,
           ...cyclesFilter,
+          available,
         });
         setStudents(response?.data);
       } catch (err) {
@@ -175,12 +179,12 @@ const HiringPortal = () => {
     fetchData();
   }, [showResults]);
 
-  const handleDateChange = useCallback((date) => {
-    if (cycleDate["$y"] === date["$y"]) {
-      setClosed(true);
-    }
-    setCycleDate(date);
-  }, [ cycleDate ]);
+  // const handleDateChange = useCallback((date) => {
+  //   if (cycleDate["$y"] === date["$y"]) {
+  //     setClosed(true);
+  //   }
+  //   setCycleDate(date);
+  // }, [ cycleDate ]);
 
   return (
     <div className={"hiring-portal-wrapper"}>
@@ -431,6 +435,30 @@ const HiringPortal = () => {
                               checked={favoritesOnly}
                               onChange={(event) =>
                                 setFavoritesOnly(event.target.checked)
+                              }
+                              inputProps={{ "aria-label": "controlled" }}
+                            />
+                          </div>
+                          <div
+                            style={{
+                              display: "flex",
+                              alignItems: "center",
+                              justifyContent: "space-between",
+                            }}
+                          >
+                            <Typography
+                              color="primary"
+                              my={1}
+                              mr={2}
+                              variant={"h5"}
+                              fontSize={"17px"}
+                            >
+                              Only Available
+                            </Typography>
+                            <Checkbox
+                              checked={available}
+                              onChange={(event) =>
+                                setAvailable(event.target.checked)
                               }
                               inputProps={{ "aria-label": "controlled" }}
                             />

@@ -152,7 +152,7 @@ function HiringCard2({ favorite_users, currentUser, id, languages, description, 
 
       <Chip
         icon={Available ? <BoltIcon  fontSize='small' />: <DoNotDisturbAltIcon fontSize='small' />}
-        label={Available ? "Available for hire":"Not available"}
+        label={Available ? "Available for Recruitment":"Recruited"}
         variant="outlined"
         color='primary'
         size='small'
