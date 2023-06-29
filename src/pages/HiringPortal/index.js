@@ -455,13 +455,13 @@ const HiringPortal = () => {
                               color="primary"
                               mr={2}
                               variant={"h5"}
-                              fontSize={"15px"}
+                              fontSize={"17px"}
                             >
-                              Only Available
+                              Available for Hire
                             </Typography>
                             <Checkbox
                               checked={available}
-                              size="small"
+                              size="medium"
                               onChange={(event) => {
                                 setAvailable(event.target.checked);
                                 setRecruited(false);
@@ -480,13 +480,13 @@ const HiringPortal = () => {
                               color="primary"
                               mr={2}
                               variant={"h5"}
-                              fontSize={"15px"}
+                              fontSize={"17px"}
                             >
-                              Only Recruited
+                              Employed
                             </Typography>
                             <Checkbox
                               checked={recruited}
-                              size="small"
+                              size="medium"
                               onChange={(event) => {
                                 setRecruited(event.target.checked);
                                 setAvailable(false);
