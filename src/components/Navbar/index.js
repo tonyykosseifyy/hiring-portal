@@ -13,7 +13,7 @@ import Cookies from 'js-cookie';
 import LogoutIcon from '@mui/icons-material/Logout';
 
 const Navbar = () => {
-    const isLoggedIn = Cookies.get('se-token');
+    const isLoggedIn = Cookies.get('nawaya-token');
     const { logout } = useAuth0();
     const theme = useTheme();
     const isSmall = useMediaQuery(theme.breakpoints.down('md'));
