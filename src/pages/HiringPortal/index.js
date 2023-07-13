@@ -153,10 +153,6 @@ const HiringPortal = () => {
         });
       })
       .catch((error) => {
-        console.log('error is', error);
-        console.log(error.response);
-        console.log(error.response.status);
-        
         if ( error.response.status === 403 ) {
           // access token expired
           Cookies.remove('nawaya-token');
