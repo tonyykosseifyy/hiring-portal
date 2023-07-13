@@ -25,11 +25,12 @@ import SwiperCore, { Virtual, Navigation, Pagination, Autoplay } from "swiper";
 import { Swiper, SwiperSlide } from "swiper/react";
 
 import { useAxios } from "../../context/axios";
-
+import { useAuth0 } from "@auth0/auth0-react";
 import { DemoContainer, DemoItem } from "@mui/x-date-pickers/internals/demo";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { YearCalendar } from "@mui/x-date-pickers/YearCalendar";
+import Cookies from 'js-cookie';
 
 
 const Alert = React.forwardRef(function Alert(props, ref) {
@@ -54,6 +55,8 @@ export const CustomTextField = styled(TextField)({
 
 const HiringPortal = () => {
   const { axios, Api } = useAxios();
+  const { logout } = useAuth0();
+  
 
   const [filterData, setFilterData] = useState({
     languages: [],
@@ -151,6 +154,16 @@ const HiringPortal = () => {
       })
       .catch((error) => {
         console.log('error is', error);
+        console.log(error.response);
+        console.log(error.response.status);
+        
+        if ( error.response.status === 403 ) {
+          // access token expired
+          Cookies.remove('nawaya-token');
+          logout();
+          // refresh the page to get a new access token
+          window.location.reload();
+        }
         setOpenSnackbar(true);
       })
       .finally(() => setIsLoading(false));
