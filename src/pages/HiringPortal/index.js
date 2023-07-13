@@ -150,6 +150,7 @@ const HiringPortal = () => {
         });
       })
       .catch((error) => {
+        console.log('error is', error);
         setOpenSnackbar(true);
       })
       .finally(() => setIsLoading(false));

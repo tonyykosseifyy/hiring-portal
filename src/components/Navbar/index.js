@@ -47,7 +47,7 @@ const Navbar = () => {
                         variant='outlined' 
                         startIcon={<LogoutIcon />}
                         onClick={() => {
-                            Cookies.remove('se-token');
+                            Cookies.remove('nawaya-token');
                             logout();
                         }}
                     >
