@@ -9,7 +9,7 @@ const AxiosContext = React.createContext();
 
 export default function AxiosProvider({ children }) {
     const { logout } = useAuth0();
-    const [token, setToken] = useState(Cookies.get("se-token"));
+    const [token, setToken] = useState(Cookies.get("nawaya-token"));
 
     const axios = useMemo(() => {
         const axios = Axios.create({
