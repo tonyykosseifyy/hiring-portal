@@ -28,7 +28,7 @@ const LoginRedirect = ({ setToken }) => {
             .then(res => {
                 // Successfully logged with Strapi
                 // Now saving the jwt to use it for future authenticated requests to Strapi
-                Cookies.set('se-token',  res.jwt);
+                Cookies.set('nawaya-token',  res.jwt);
                 setToken(res.jwt);
                 // queryClient.setQueryData(CURRENT_USER_KEY,res.user)
                 setTimeout(() => history.push('/'), 3000); // Redirect to homepage after 3 sec

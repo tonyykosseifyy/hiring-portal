@@ -4,7 +4,7 @@ import Loader from "../../components/Loader";
 import Cookies from 'js-cookie';
 
 const AuthRoute = ({component: Component, ...args}) => {
-    let isLoggedIn = Cookies.get('se-token');
+    let isLoggedIn = Cookies.get('nawaya-token');
 
     return (<Route
         render={(props) => {
